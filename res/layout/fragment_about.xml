@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:useDefaultMargins="true"
+    android:alignmentMode="alignBounds"
+    android:columnOrderPreserved="false"
+    android:background="@mipmap/bg_space"
+    android:id="@+id/about"
+    >
+    <!-- Row 0 Padding -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        />
+
+    <!-- Row 1 Banner-->
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/aboutView2"
+        android:src="@mipmap/banner" />
+
+    <!-- Row 3 - More padding -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:textColor="@color/white"
+        />
+
+    <!-- Row 4 - Other Stuff -->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/about_staff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="96pt"
+            android:minWidth="40pt"
+            android:paddingLeft="2pt"
+            android:paddingRight="2pt"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:src="@mipmap/staff"
+            android:layout_gravity="top" />
+
+        <TextView
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:id="@+id/bgScanTime"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:paddingStart="5dp"
+            android:paddingEnd="10dp"
+            android:layout_gravity="start"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="@string/about_staff"
+            />
+    </GridLayout>
+
+
+
+    <TextView
+        android:layout_gravity="start"
+        android:layout_height="10dp"
+        android:layout_width="match_parent"
+        android:gravity="bottom" />
+
+    <TextView
+        android:layout_gravity="start"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:textColor="@color/white"
+        android:text="@string/about_copyright"
+        android:gravity="center|bottom" />
+
+</LinearLayout>

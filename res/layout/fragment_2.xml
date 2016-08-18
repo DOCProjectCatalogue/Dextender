@@ -1,0 +1,268 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:useDefaultMargins="true"
+    android:alignmentMode="alignBounds"
+    android:columnOrderPreserved="false"
+    android:id="@+id/fragment_2"
+    android:background="@android:color/transparent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="@string/frag2_bgTitle"
+        android:id="@+id/frag2chartmsg"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+    />
+
+    <TextView
+         android:layout_width="10dp"
+         android:layout_height="wrap_content"
+    />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/frag2bgIcon"
+        android:minHeight="35sp"
+        android:minWidth="35sp"
+    />
+    </LinearLayout>
+
+
+
+
+    <!-- CHART -->
+    <LinearLayout
+        android:id="@+id/chart"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:orientation="horizontal"
+    />
+
+
+     <!-- High Values and time (note filler for the first line -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+    >
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="High"
+            android:id="@+id/frag2label1"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:paddingStart="15dp"
+            android:paddingEnd="5dp"
+        />
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+        />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:text="@string/frag2defaultValue"
+            android:id="@+id/frag2HighBg"
+            android:textColor="@color/white"
+            android:textAlignment="textEnd"
+            android:typeface="monospace"
+            android:gravity="end"
+        />
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/frag2defaultTime"
+            android:id="@+id/frag2TimeHighBg"
+            android:textColor="@color/white"
+            android:typeface="monospace"
+        />
+    </LinearLayout>
+
+    <!-- Low Value and Time it happened -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+    >
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="Low"
+            android:id="@+id/frag2label2"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:paddingStart="15dp"
+            android:paddingEnd="5dp"
+        />
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="@string/frag2defaultValue"
+            android:gravity="end"
+            android:id="@+id/frag2LowBg"
+            android:textColor="@color/white"
+            android:textAlignment="textEnd"
+            android:typeface="monospace"
+        />
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/frag2defaultTime"
+            android:id="@+id/frag2TimeLowBg"
+            android:textColor="@color/white"
+            android:typeface="monospace"
+        />
+    </LinearLayout>
+
+        <!-- Average Value -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+    >
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/frag2Label3"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:paddingStart="15dp"
+            android:paddingEnd="5dp"
+        />
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+        />
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="50dp"
+            android:textColor="@color/white"
+            android:id="@+id/frag2AvgBg"
+            android:textAlignment="textEnd"
+            android:typeface="monospace"
+            android:gravity="end"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+        />
+    </LinearLayout>
+
+
+    <!-- A1C Value -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+    >
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/frag2Label4"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:id="@+id/frag2A1C_title"
+            android:paddingStart="15dp"
+            android:paddingEnd="5dp"
+            />
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:layout_height="match_parent"
+            android:layout_width="50dp"
+            android:textColor="@color/white"
+            android:id="@+id/frag2A1C"
+            android:textAlignment="textEnd"
+            android:typeface="monospace"
+            android:gravity="end"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+
+
+        <!-- Buffer between averages and buttons -->
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:gravity="bottom"
+            android:clickable="false"
+    />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+        android:gravity="bottom|center"
+    >
+
+        <Button style="?android:borderlessButtonStyle"
+            android:id="@+id/button3Hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/hour3"
+            android:gravity="bottom|center"
+            android:clickable="true"
+        />
+            <Button style="?android:borderlessButtonStyle"
+                android:id="@+id/button6Hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@mipmap/hour6"
+                android:gravity="bottom|center"
+                android:clickable="true"
+            />
+            <Button style="?android:borderlessButtonStyle"
+                android:id="@+id/button12Hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@mipmap/hour12"
+                android:gravity="bottom|center"
+                android:clickable="true"
+            />
+            <Button style="?android:borderlessButtonStyle"
+                android:id="@+id/button24Hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@mipmap/hour24"
+                android:gravity="bottom|center"
+                android:clickable="true"
+            />
+    </LinearLayout>
+</LinearLayout>
+
+
+
+

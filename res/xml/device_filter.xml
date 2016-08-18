@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- From windows device manager when the Dex is plugged in - Look for VID, PID and other fields-->
+<!-- Those values need to be converted to DEC.. so HEX 22A3 (from Windows) = 8867 -->
+<!---usb-device vendor-id="22A3" product-id="47" class="2" subclass="2" protocol="1" / -->
+<!-- Original: usb-device vendor-id="8867" product-id="71" class="2" subclass="0" protocol="0" /-->
+<resources>
+    <!--usb-device vendor-id="8867" product-id="71" class="2" subclass="2" protocol="1"/-->
+    <usb-device vendor-id="8867" product-id="71" />
+</resources>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:text="---"
+        android:id="@+id/circleTitle"/>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:seekcircle="http://schemas.android.com/apk/res-auto"
+        tools:context="com.dextender.dextender.MyCircleActivity">
+
+        <com.dextender.dextender.SeekCircle
+            android:id="@+id/seekCircle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            seekcircle:min="0"
+            seekcircle:max="400"
+
+            seekcircle:lowBgMin="60"
+            seekcircle:lowBgMax="100"
+            seekcircle:highBgMin="110"
+            seekcircle:highBgMax="400"
+
+            seekcircle:progress="70"
+            />
+
+        <TextView
+            android:id="@+id/textProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:text="@string/default_progress"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|end"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        >
+
+        <ImageButton style="?android:borderlessButtonStyle"
+            android:id="@+id/seekButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/check"
+            android:clickable="true"
+            android:onClick="submitIt"
+            android:gravity="center"
+            android:minHeight="65dp"
+            android:minWidth="65dp"
+            android:layout_gravity="bottom|end"
+
+            />
+    </LinearLayout>
+</FrameLayout>

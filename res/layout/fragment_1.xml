@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@android:color/transparent"
+    >
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:useDefaultMargins="true"
+        android:alignmentMode="alignBounds"
+        android:columnOrderPreserved="false"
+        android:id="@+id/fragment_1"
+    >
+
+        <!-- Row 0 Padding -->
+        <TextView
+            android:id="@+id/frag1Filler1"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+        />
+
+        <!-- Row 1 System Messages -->
+        <TextView
+            android:id="@+id/frag1Message"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:textStyle="bold"
+            android:textColor="#ffff00"
+            android:text=""
+            android:gravity="top"
+        />
+
+        <!-- Row 2 Big BG Number -->
+        <TextView
+            android:id="@+id/bgVal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/frag1_default_bg"
+            android:textSize="96sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center" />
+
+        <!-- Row 3 - More padding -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:textColor="@color/white"
+        />
+
+        <!-- Row 4 - Other Stuff -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_gravity="start"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="@string/frag1_serviceRunTime_title"
+            />
+
+            <TextView
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:id="@+id/frag1_serviceRunTime"
+                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_gravity="start"
+                android:textColor="@color/white"
+                android:text="@string/frag1_default_scantime"
+                android:typeface="monospace"
+            />
+
+
+            <TextView
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:id="@+id/frag1_runTimeAgo"
+                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_gravity="start"
+                android:textColor="@color/white"
+                android:typeface="monospace"
+                />
+
+            <!-- Filler -->
+            <TextView
+                android:layout_row="2"
+                android:layout_column="0"
+                android:layout_columnSpan="4"
+                android:layout_height="10dp"
+                />
+
+
+            <!-- The last scan we're we received data -->
+            <TextView
+                android:layout_row="3"
+                android:layout_column="0"
+                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_gravity="start"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="@string/frag1_scantime_title"
+                />
+
+            <TextView
+                android:layout_row="3"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:id="@+id/bgScanTime"
+                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_gravity="start"
+                android:textColor="@color/white"
+                android:text="@string/frag1_default_scantime"
+                android:typeface="monospace"
+
+                />
+
+            <TextView
+                android:layout_row="4"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:id="@+id/bgScanTimeAgo"
+                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_gravity="start"
+                android:textColor="@color/white"
+                android:typeface="monospace"
+
+                />
+
+            <!-- Filler -->
+            <TextView
+                android:layout_row="5"
+                android:layout_column="0"
+                android:layout_columnSpan="4"
+                android:layout_height="10dp"
+                />
+
+
+            <TextView
+                android:layout_row="6"
+                android:layout_column="0"
+                android:layout_height="20dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_gravity="start"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="@string/frag1_dextime_title"
+                android:layout_width="wrap_content"
+            />
+
+            <TextView
+                android:layout_row="6"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:id="@+id/bgDexTime"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_gravity="start"
+                android:textColor="@color/white"
+                android:text="@string/frag1_default_dextime"
+                android:typeface="monospace"
+            />
+
+
+        </GridLayout>
+
+        <!-- row 6 More padding -->
+        <TextView
+            android:layout_gravity="start"
+            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+        />
+
+        <!-- ======================================================================= -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_gravity="start"
+                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:textColor="@color/white"
+            />
+            <!-- image button .. if you set the background, the image will stretch -->
+            <ImageButton style="?android:borderlessButtonStyle"
+                android:contentDescription="@string/dash"
+                android:layout_gravity="center"
+                android:id="@+id/bgImgTrend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/i180"
+                android:clickable="true"
+                android:gravity="center"
+                android:minHeight="125dp"
+                android:minWidth="125dp"
+            />
+            <TextView
+                android:layout_gravity="start"
+                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:textColor="@color/white"
+            />
+        </LinearLayout>
+        <!-- ======================================================================= -->
+
+
+        <!-- bottom padding -->
+        <TextView
+            android:layout_gravity="start"
+            android:layout_height="20dp"
+            android:layout_width="match_parent"
+            android:gravity="bottom" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|end"
+        android:paddingRight="15dp"
+        android:paddingBottom="15dp"
+        >
+        <ImageButton style="?android:borderlessButtonStyle"
+            android:id="@+id/frag1_refreshButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/refresh"
+            android:clickable="true"
+            android:gravity="center"
+            android:minHeight="65dp"
+            android:minWidth="65dp"
+            android:layout_gravity="bottom|end"
+            />
+    </LinearLayout>
+
+
+</FrameLayout>

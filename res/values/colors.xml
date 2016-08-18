@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="sa_purple">#300060</color>
+    <color name="stacked_purple">#500080</color>
+    <color name="accent_purple">#660099</color>
+    <color name="deep_purple">#200040</color>
+    <color name="light_blue">#00ffff</color>
+    <color name="overflow_blue">#8080ff</color>
+    <color name="light_gray">#d0d0d0</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#ff0000</color>
+    <color name="black">#000000</color>
+
+
+</resources>

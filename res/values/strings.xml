@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <string name="Off">Off</string>
+    <string name="On">On</string>
+    <string name="low">Low</string>
+    <string name="default_progress">0%</string>
+
+
+    <string name="dash">-</string>
+    <string name="dbError">[DB Error]</string>
+    <!-- Activity names in the manifest -->
+    <string name="label_alarm">MyAlarm</string>
+    <string name="label_speaker">MySpeaker</string>
+    <string name="label_search">MySearch</string>
+
+    <!-- Tab Titles -->
+    <string name="app_name">dExtender</string>
+
+    <string name="title_section1">Bg</string>
+    <string name="title_section2">Graph</string>
+    <string name="title_section3">Status</string>
+    <string name="title_section4">Logs</string>
+    <string name="title_section5">Bluetooth</string>
+
+    <!-- generic -->
+    <string name="off">Off</string>
+    <string name="on">On</string>
+
+    <!-- Fragment 1 -->
+    <string name="frag1_default_bg">101</string>
+    <string name="frag1_serviceRunTime_title">Last time we ran :</string>
+    <string name="frag1_scantime_title">Last time we got data :</string>
+    <string name="frag1_dextime_title">Last receiver time :</string>
+    <string name="frag1_default_dextime">--:--:--</string>
+    <string name="frag1_default_scantime">--:--:--</string>
+    <string name="frag1_message3">Trend</string>
+    <string name="frag1_buttonInstructions">Press the arrow button to refresh</string>
+
+    <!-- Fragment 2 -->
+    <string name="frag2_bgTitle">101</string>
+    <string name="frag2_serviceWarning">Your connection settings are turned off.</string>
+    <string name="frag2_novalueMsg">Not enough values</string>
+    <string name="frag2Label3">Average</string>
+    <string name="frag2defaultTime">--:--:-- AM</string>
+    <string name="frag2defaultValue">0</string>
+    <string name="frag2Label4">A1C (est.)</string>
+
+    <!-- Fragment 3 layout -->
+    <string name="frag3Title1">Service Status</string>
+    <string name="frag3Title2">Account Information</string>
+    <string name="frag3rawUsbTitle">Raw USB Records</string>
+    <string name="frag3Title3">Current BG Settings</string>
+    <!-- Fragment 3 referenced in Java-->
+    <string name="frag3_cloudTitle">Cloud server</string>;
+    <string name="frag3_accountTitle">Cloud Account status</string>;
+    <string name="frag3_noAccount">Account has not been setup</string>;
+
+    <string name="frag3_rising">When rising</string>;
+    <string name="frag3_falling">When falling</string>;
+    <string name="frag3_trendTitle">Trend alerts</string>;
+    <string name="frag3_trendUnknown">Trend unknown</string>;
+
+
+    <string name="status_section1">Current Component Status</string>
+    <string name="logs_section1">Logs</string>
+    <string name="settings_section1">This is Settings</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Preferences -->
+    <string name="pref_uid">Retrieve your access code</string>
+    <string name="pref_uid_sum">Your access code from the follow app</string>
+    <string name="pref_tts">Text to Speech</string>
+    <string name="pref_tts_sum">\'Say\' your notifications</string>
+    <string name="pref_tts_muzzle">Limit TTS</string>
+    <string name="pref_tts_muzzle_sum">Only speak when nearing a warning threshold</string>
+    <string name="pref_tts_polite">Polite TTS</string>
+    <string name="pref_tts_polite_sum">Prefix your speech with:\n\"The blood glucose level is\".\nThis is useful
+        when using BlueTooth speakers and the beginning part of the speech gets cut off and you miss the actual BG value
+    </string>
+
+    <string name="pref_a1c">Display A1C on chart</string>
+    <string name="pref_a1c_sum">This is not a final A1C value, but a calculated\n
+                                ESTIMATED value of the current average. Use this\n
+                                as a guide, but not as a definitive value.
+    </string>
+    <string name="pref_averageGraph">Display moving average</string>
+    <string name="pref_averageGraph_sum">Displays the 60 minute moving average\n
+                                of your BG levels. This will smooth out the\n
+                                bumps and show the trend over time.
+    </string>
+    <string name="pref_solidBackground">Background Image</string>
+    <string name="pref_solidBackground_sum">Have an image instead of a solid black background</string>
+
+
+    <string name="pref_razer">SmartWatch Notifications</string>
+    <string name="pref_razer_sum">Format notifications for SmartWatch display</string>
+    <string name="pref_razer_critical">Warning Levels Only</string>
+    <string name="pref_razer_critical_sum">Notifications are only raised on warnings.\n
+        Use this in conjunction by enabling vibrate notifications on your band.
+        </string>
+
+    <string name="pref_intro_tune">Intro Tune</string>
+    <string name="pref_intro_tune_sum">Play the dExtender tune on startup</string>
+    <string name="pref_svc">Background Service</string>
+    <string name="pref_svc_sum">Background service</string>
+    <string name="pref_cloud">Link to the cloud</string>
+    <string name="pref_cloud_sum">Start/Stop receiving\nfrom the cloud</string>
+    <string name="pref_autoOff">Auto stop services</string>
+    <string name="pref_autoOff_sum">Automatically stop services\nwhen data errors hit a time threshold</string>
+    <string name="pref_autoOffTimeOut">Elapsed time before stopping service</string>
+    <string name="pref_autoOffTimeOut_sum">Time threshold before we automatically stop services</string>
+    <string name="pref_autoOffAlarmTone">Auto Off Alarm</string>
+    <string name="pref_autoOffAlarmTone_sum">Tone to play when services are automatically turned off</string>
+
+    <string name="pref_refresh_interval">Refresh Interval</string>
+    <string name="pref_refresh_interval_sum">Longer intervals save battery life</string>
+    <string name="pref_smart_refresh">Smart Refresh</string>
+    <string name="pref_smart_refresh_sum">15 minute refresh intervals\nwhile BG is in "safe" zone,\notherwise five(5) minutes\nwhen limits exceeded.\nOverrides refresh interval</string>
+    <string name="pref_smart_limit">Enable Elevate Warnings</string>
+    <string name="pref_smart_limit_sum">Alert when your bg has NOT hit a high, but is sustained high for a period of time</string>
+    <string name="pref_startTrailingHigh">Trailing High</string>
+    <string name="pref_startTrailingHigh_sum">Resets your high level settings when a BG is falling, to this new target value</string>
+    <string name="pref_startTrailingHighValue">Target high level</string>
+    <string name="pref_startTrailingHighValue_sum">Target value not set</string>
+    <string name="pref_startTrailingLow">Trailing Low</string>
+    <string name="pref_startTrailingLow_sum">Resets your low level settings when a BG is rising, to this new target value</string>
+    <string name="pref_startTrailingLowValue">Target low level</string>
+    <string name="pref_startTrailingLowValue_sum">Target value not set</string>
+
+
+    <string name="pref_predictive">Enable Early Warnings</string>
+    <string name="pref_predictiveSum">Using recent trends, predict when the next reading will cross a threshold</string>
+    <string name="pref_predict_sample">Sample Count</string>
+    <string name="pref_predict_sampleSum">How many samples to use to determine recent trends</string>
+    <string name="pref_predict_lookAhead">Look Ahead</string>
+    <string name="pref_predict_lookAheadSum">How far ahead should we look</string>
+
+    <string name="pref_trendHigh">Alert on high trend</string>
+    <string name="pref_trendHigh_sum">Alert when trend is up/double up</string>
+    <string name="pref_trendLow">Alert on low trend</string>
+    <string name="pref_trendLow_sum">Alert when trend is down/double down</string>
+    <string name="pref_hard_low_alarm">Hard Low Alarm</string>
+    <string name="pref_hard_low_alarm_sum">Sound to play when hitting a significant low</string>
+    <string name="pref_hardLowBehavior">Hard Low Behavior</string>
+    <string name="pref_hardLowBehavior_sum">Force confirmation of the hard low alarm</string>
+    <string name="pref_low_alarm">Low Alarm</string>
+    <string name="pref_low_alarm_sum">Sound to play when hitting a low BG value</string>
+    <string name="pref_high_alarm">High Alarm</string>
+    <string name="pref_high_alarm_sum">Sound to play when hitting a high BG value</string>
+    <string name="pref_annoying">High Alert - Critical reminder</string>
+    <string name="pref_annoying_sum">Force confirmation after a certain number of reminders</string>
+    <string name="pref_annoyingCount">High Alert - Alarm count</string>
+    <string name="pref_annoyingCount_sum">After how many alerts do we become critical</string>
+
+    <string name="pref_lowTrend_alarm">Low Trend Alarm</string>
+    <string name="pref_lowTrend_alarm_sum">Sound to play when trending very low</string>
+    <string name="pref_highTrend_alarm">High Trend Alarm</string>
+    <string name="pref_highTrend_alarm_sum">Sound to play when trending very high</string>
+    <string name="pref_vibrate">Vibrate</string>
+    <string name="pref_vibrate_sum">Vibrate this device (if supported)</string>
+    <string name="pref_override">Alarm in Silent Mode</string>
+    <string name="pref_override_sum">Play alarm even when the device is in silent mode</string>
+    <string name="pref_netErrorIgnore">Ignore Network Errors</string>
+    <string name="pref_netErrorIgnore_sum">The network monitoring is very detailed and will generate errors on unstable networks.\nYou can ignore these errors
+    </string>
+
+    <string name="pref_data_error">Data Error Alarm</string>
+    <string name="pref_data_error_sum">Sound to play when failing to receive data</string>
+    <string name="pref_network_error">Network Error Alarm</string>
+    <string name="pref_network_error_sum">Sound to play when phone has no network access (WiFi/Cell Tower)</string>
+
+    <string name="pref_service_failure">Service Error Alarm</string>
+    <string name="pref_service_failure_sum">Sound to play when one of the service components has failed</string>
+
+    <!-- Services / Notification Tray -->
+    <string name="service_stat1">dExtender</string>
+    <string name="service_sum">dExtender Service is Running</string>
+
+    <string name="pref_editAccount">Account editing</string>
+    <string name="pref_editAccount_sum">Enable the fields below for editing</string>
+    <string name="pref_dextenderName">Your handle/password from dextender.com</string>
+
+
+    <!-- HttpPost -->
+    <!-- VM on Laptop -->
+    <string name="http_url">http://www.dextender.com/cgi-bin/dxt.cgi"</string> -->
+    <string name="http_bg_url">https://share2.dexcom.com/ShareWebServices/Services/Subscriber/ReadSubscriptionLatestGlucoseValues"</string>
+    <string name="http_login_url">https://share2.dexcom.com/ShareWebServices/Services/General/LoginSubscriberAccount"</string>
+    <string name="http_subId_url">https://share2.dexcom.com/ShareWebServices/Services/Subscriber/ListSubscriberAccountSubscriptions"</string>
+    <string name="http_dextender_url">http://www.dextender.com/cgi-bin/validate.cgi"</string>
+    <string name="http_dextender_url_v02">http://www.dextender.com/cgi-bin/validate_v02.cgi"</string>
+
+    <!-- Splash -->
+    <string name="splash_banner">dExtender</string>
+
+    <!-- Alarm -->
+    <string name="slider">Slide to unlock</string>
+
+    <!-- About -->
+    <string name="about_staff"> Our staff was found on the New Jersey Shore\n
+                                after Hurricane Sandy. It was sanded and\n
+                                stained with MinWax PolyShades\n
+                                \n
+                                This app was an effort by me, a dad of a\n
+                                type 1 diabetic, who is trying, with my \n
+                                debatable smarts, lots of late nights and\n
+                                gallons of coffee, to make a difference.\n
+                                The app, web site, graphics, etc.\n
+                                were all made by me, and are copyrighted.\n
+                                \n
+                                A little about me. I\'m a database guy \n
+                                (Oracle, MySQL, Postgres, Sql Server, \n
+                                SQLite, SQL/DS and DB2) whose worked for \n
+                                AT&amp;T Labs, a number of Wall Street firms, a \n
+                                VOIP company, was a Director of Database\n
+                                Technologies, etc..\n
+                                This project, in terms of technical know how,\n
+                                has dwarfed any project I\'ve ever worked on.\n
+                                \n
+                                I can be reached at
+                                <intent android:action="android.intent.action.VIEW" android:data="mailto:admin@dextender.com">
+                                <extra android:name="android.intent.extra.TEXT" android:value="admin@dextender.com" />
+                                <extra android:name="android.intent.extra.SUBJECT" android:value="@string/about_email_subject" />
+                                </intent><a>admin@dextender.com</a>\n
+                                \n
+                                A special thanks to Jon \nfor helping me debug some issues !!!
+    </string>
+
+    <string name="about_email_subject">hello</string>
+    <!-- Change version in the build.grade (Module:app) -->
+    <string name="about_copyright"> Copyright 2015-2016 - dExtender.com\nAll Rights Reserved\n
+        Version 3.0.0.129 (Cape May)
+    </string>
+
+
+</resources>

@@ -1,0 +1,20 @@
+<resources>
+
+    <declare-styleable name="SeekCircle">
+        <attr name="min" format="integer" value="0" />
+        <attr name="max" format="integer" value="400" />
+        <attr name="progress" format="integer" value="0" />
+        <attr name="startColor" format="color" />
+        <attr name="endColor" format="color" />
+        <attr name="inactiveColor" format="color" />
+        <attr name="ringBias" format="float" />
+        <attr name="sectionRatio" format="float" />
+
+        <!--      Specific to this app   -->
+        <attr name="lowBgMin" format="integer" value="60"  />
+        <attr name="lowBgMax" format="integer" value="100"  />
+        <attr name="highBgMin" format="integer" value="110"  />
+        <attr name="highBgMax" format="integer" value="400"  />
+    </declare-styleable>
+
+</resources>

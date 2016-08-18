@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+        <PreferenceScreen
+            android:title="Blood Glucose Thresholds"
+            android:key="pref_Alert_Settings2">
+            <PreferenceCategory android:title="BG Values">
+            <ListPreference
+                android:entries="@array/hardLowOptions"
+                android:entryValues="@array/hardLowValues"
+                android:key="listHardLow"
+                android:summary="Hard low limit"
+                android:title="Hard low limit" />
+            <Preference
+                android:key="listLow"
+                android:summary="Low value alert limit"
+                android:title="Low warning" />
+            <Preference
+                android:key="listHigh"
+                android:summary="High value alert limit"
+                android:title="High warning" />
+            </PreferenceCategory>
+            <PreferenceCategory
+                android:title="Trends">
+            <SwitchPreference
+                android:id="@+id/pref_trendLow"
+                android:title="@string/pref_trendLow"
+                android:key="pref_trendLow"
+                android:defaultValue="false"
+                android:summary="@string/pref_trendLow_sum"
+                android:enabled="true"/>
+            <SwitchPreference
+                android:id="@+id/pref_trendHigh"
+                android:title="@string/pref_trendHigh"
+                android:key="pref_trendHigh"
+                android:defaultValue="false"
+                android:summary="@string/pref_trendHigh_sum"
+                android:enabled="true"/>
+            </PreferenceCategory>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:title="Smart Limits (advanced)"
+            android:key="pref_smarts">
+            <PreferenceCategory
+                android:title="Elevated Readings">
+                <SwitchPreference
+                    android:id="@+id/pref_smart_limit"
+                    android:title="@string/pref_smart_limit"
+                    android:key="pref_smartLimit"
+                    android:defaultValue="false"
+                    android:summary="@string/pref_smart_limit_sum"/>
+                <Preference
+                    android:key="sustainedListHigh"
+                    android:summary="If the BG is lower than the HIGH setting, but higher than this ..."
+                    android:title="Sustained Elevated Level"
+                    android:dependency="pref_smartLimit"
+                    />
+                <ListPreference
+                    android:entries="@array/sustainedTimeOptions"
+                    android:entryValues="@array/sustainedTimeValues"
+                    android:key="sustainedTimeHigh"
+                    android:summary="..and it's been high for this amount of time..."
+                    android:title="Sustained Elevated Time"
+                    android:dependency="pref_smartLimit"
+                    />
+                <RingtonePreference
+                    android:key="sustainedAlarmTone"
+                    android:ringtoneType="alarm"
+                    android:title="Sustained Elevated Alarm"
+                    android:summary="...then play this sound."
+                    android:showDefault="true"
+                    android:showSilent="true"
+                    android:defaultValue="content://settings/system/notification_sound"
+                    android:dependency="pref_smartLimit"
+                    />
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:title="Follow High Threshold"
+                android:summary="Reset your target high level if you know your BG is falling">
+                <SwitchPreference
+                    android:id="@+id/pref_startTrailingHigh"
+                    android:title="@string/pref_startTrailingHigh"
+                    android:key="pref_startTrailingHigh"
+                    android:defaultValue="false"
+                    android:summary="@string/pref_startTrailingHigh_sum"/>
+                <Preference
+                    android:id="@+id/followListHigh"
+                    android:key="followListHigh"
+                    android:title="@string/pref_startTrailingHighValue"
+                    android:summary="@string/pref_startTrailingHighValue_sum"
+                    android:dependency="pref_startTrailingHigh"
+                    />
+                <RingtonePreference
+                    android:key="trailingHighAlarmTone"
+                    android:ringtoneType="alarm"
+                    android:title="Modified High Tone"
+                    android:summary="Suggestion: play a gentle tone when threshold has changed"
+                    android:showDefault="true"
+                    android:showSilent="true"
+                    android:defaultValue="content://settings/system/notification_sound"
+                    android:dependency="pref_startTrailingHigh"
+                    />
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:title="Follow Low Threshold"
+                android:summary="Reset your target low level if you know your BG is rising">
+                <SwitchPreference
+                    android:id="@+id/pref_startTrailingLow"
+                    android:title="@string/pref_startTrailingLow"
+                    android:key="pref_startTrailingLow"
+                    android:defaultValue="false"
+                    android:summary="@string/pref_startTrailingLow_sum"/>
+                <Preference
+                    android:id="@+id/followListLow"
+                    android:key="followListLow"
+                    android:title="@string/pref_startTrailingLowValue"
+                    android:summary="@string/pref_startTrailingLowValue_sum"
+                    android:dependency="pref_startTrailingLow"
+                    />
+                <RingtonePreference
+                    android:key="trailingLowAlarmTone"
+                    android:ringtoneType="alarm"
+                    android:title="Modified Low Tone"
+                    android:summary="Suggestion: play a gentle tone when threshold has changed"
+                    android:showDefault="true"
+                    android:showSilent="true"
+                    android:defaultValue="content://settings/system/notification_sound"
+                    android:dependency="pref_startTrailingLow"
+                    />
+            </PreferenceCategory>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:title="Early Warning (beta)"
+            android:key="pref_predict">
+
+            <SwitchPreference
+                android:title="@string/pref_predictive"
+                android:id="@+id/pref_predictive"
+                android:key="pref_predictive"
+                android:defaultValue="false"
+                android:summary="@string/pref_predictiveSum"
+                />
+
+            <ListPreference
+                android:id="@+id/pref_predictiveSampleCount"
+                android:title="@string/pref_predict_sample"
+                android:key="pref_predictiveSampleCount"
+                android:summary="@string/pref_predict_sampleSum"
+                android:defaultValue="4"
+                android:dependency="pref_predictive"
+                android:entries="@array/predictSamples"
+                android:entryValues="@array/predictSampleValues"
+                />
+
+            <ListPreference
+                android:id="@+id/pref_predictiveLookAhead"
+                android:title="@string/pref_predict_lookAhead"
+                android:key="pref_predictiveLookAhead"
+                android:summary="@string/pref_predict_lookAheadSum"
+                android:defaultValue="3"
+                android:dependency="pref_predictive"
+                android:entries="@array/predictLookAhead"
+                android:entryValues="@array/predictLookAheadValues"
+                />
+        </PreferenceScreen>
+
+
+        <PreferenceScreen
+                android:key="button_alert_category_key"
+                android:title="Snooze, Sounds and Vibrations"
+                android:persistent="false">
+
+
+            <PreferenceScreen
+                android:title="Alarm Sounds">
+                <PreferenceCategory android:title="Sound Settings">
+                <PreferenceScreen
+                    android:title="Hard Low Alarm"
+                    android:summary="Set your HARD low settings">
+                    <RingtonePreference
+                        android:key="pref_hardLowAlarmTone"
+                        android:ringtoneType="alarm"
+                        android:title="@string/pref_hard_low_alarm"
+                        android:summary="@string/pref_hard_low_alarm_sum"
+                        android:showDefault="true"
+                        android:showSilent="true"
+                        android:defaultValue="content://settings/system/notification_sound" />
+                    <SwitchPreference
+                        android:id="@+id/pref_hardLowBehavior"
+                        android:title="@string/pref_hardLowBehavior"
+                        android:key="pref_hardLowBehavior"
+                        android:defaultValue="false"
+                        android:summary="@string/pref_hardLowBehavior_sum"/>
+                </PreferenceScreen>
+                <RingtonePreference
+                    android:key="lowAlarmTone"
+                    android:ringtoneType="alarm"
+                    android:title="@string/pref_low_alarm"
+                    android:summary="@string/pref_low_alarm_sum"
+                    android:showDefault="true"
+                    android:showSilent="true"
+                    android:defaultValue="content://settings/system/notification_sound" />
+                <PreferenceScreen
+                    android:title="High Alarm"
+                    android:summary="Set your high-alarm settings">
+                    <RingtonePreference
+                        android:key="highAlarmTone"
+                        android:ringtoneType="alarm"
+                        android:title="@string/pref_high_alarm"
+                        android:summary="@string/pref_high_alarm_sum"
+                        android:showDefault="true"
+                        android:showSilent="true"
+                        android:defaultValue="content://settings/system/notification_sound" />
+                    <SwitchPreference
+                        android:id="@+id/pref_annoying"
+                        android:title="@string/pref_annoying"
+                        android:key="pref_annoying"
+                        android:defaultValue="false"
+                        android:summary="@string/pref_annoying_sum"
+                        android:enabled="true"/>
+                    <ListPreference
+                        android:entries="@array/whenToAnnoyEntries"
+                        android:entryValues="@array/whenToAnnoyValues"
+                        android:key="pref_highAlarmCount"
+                        android:summary="@string/pref_annoying_sum"
+                        android:title="@string/pref_annoyingCount"
+                        android:dependency="pref_annoying"/>
+                </PreferenceScreen>
+                    <RingtonePreference
+                        android:key="networkErrorAlarmTone"
+                        android:ringtoneType="alarm"
+                        android:title="@string/pref_network_error"
+                        android:summary="@string/pref_network_error_sum"
+                        android:showDefault="true"
+                        android:showSilent="true"
+                        android:defaultValue="content://settings/system/notification_sound" />
+
+                    <RingtonePreference
+                    android:key="dataErrAlarmTone"
+                    android:ringtoneType="alarm"
+                    android:title="@string/pref_data_error"
+                    android:summary="@string/pref_data_error_sum"
+                    android:showDefault="true"
+                    android:showSilent="true"
+                    android:defaultValue="content://settings/system/notification_sound" />
+                <RingtonePreference
+                    android:key="autoOffAlarmTone"
+                    android:ringtoneType="alarm"
+                    android:title="@string/pref_autoOffAlarmTone"
+                    android:summary="@string/pref_autoOffAlarmTone_sum"
+                    android:showDefault="true"
+                    android:showSilent="true"
+                    android:dependency="pref_autoOff"
+                    android:defaultValue="content://settings/system/notification_sound" />
+                <RingtonePreference
+                    android:key="lowTrendAlarmTone"
+                    android:ringtoneType="alarm"
+                    android:title="@string/pref_lowTrend_alarm"
+                    android:summary="@string/pref_lowTrend_alarm_sum"
+                    android:showDefault="true"
+                    android:showSilent="true"
+                    android:defaultValue="content://settings/system/notification_sound" />
+                <RingtonePreference
+                    android:key="highTrendAlarmTone"
+                    android:ringtoneType="alarm"
+                    android:title="@string/pref_highTrend_alarm"
+                    android:summary="@string/pref_highTrend_alarm_sum"
+                    android:showDefault="true"
+                    android:showSilent="true"
+                    android:defaultValue="content://settings/system/notification_sound" />
+
+                </PreferenceCategory>
+                <PreferenceCategory android:title="Sound time">
+                <ListPreference
+                    android:entries="@array/playTimeOptions"
+                    android:entryValues="@array/playTimeValues"
+                    android:key="pref_maxPlayTime"
+                    android:summary="Maximum time to play an alarm sound"
+                    android:title="Length of Alarm Tone" />
+                </PreferenceCategory>
+            </PreferenceScreen>
+
+            <PreferenceScreen
+                android:title="Vibration and Silent Mode Settings">
+            <SwitchPreference
+                    android:id="@+id/pref_alert_vibrate"
+                    android:title="@string/pref_vibrate"
+                    android:key="pref_alert_vibrate"
+                    android:defaultValue="true"
+                    android:summary="@string/pref_vibrate_sum"/>
+                <SwitchPreference
+                    android:id="@+id/pref_alert_override"
+                    android:title="@string/pref_override"
+                    android:key="pref_alert_override"
+                    android:defaultValue="false"
+                    android:summary="@string/pref_override_sum"/>
+                <PreferenceCategory
+                    android:title="Network Alarming">
+                    <SwitchPreference
+                        android:id="@+id/pref_netErrorIgnore"
+                        android:title="@string/pref_netErrorIgnore"
+                        android:key="pref_netErrorIgnore"
+                        android:defaultValue="true"
+                        android:summary="@string/pref_netErrorIgnore_sum"/>
+
+
+                </PreferenceCategory>
+            </PreferenceScreen>
+
+            <PreferenceScreen
+                android:title="Snooze Settings">
+                <ListPreference
+                    android:entries="@array/bgSnoozeElapsedEntries"
+                    android:entryValues="@array/bgSnoozeElapsedValues"
+                    android:key="pref_lowSnoozeElapse"
+                    android:summary="Minutes to snooze between LOW BG alarms"
+                    android:title="Low BG snooze time" />
+                <ListPreference
+                    android:entries="@array/bgSnoozeElapsedEntries"
+                    android:entryValues="@array/bgSnoozeElapsedValues"
+                    android:key="pref_highSnoozeElapse"
+                    android:summary="Minutes to snooze between HIGH BG alarms"
+                    android:title="High BG Snooze Time" />
+                <ListPreference
+                    android:entries="@array/bgSnoozeElapsedEntries"
+                    android:entryValues="@array/bgSnoozeElapsedValues"
+                    android:key="pref_trendSnoozeElapse"
+                    android:summary="Minutes to snooze between trend alarms"
+                    android:title="Trend Alert Snooze Time" />
+              </PreferenceScreen>
+
+
+        </PreferenceScreen>
+
+
+        <PreferenceScreen
+            android:key="button_general_category_key"
+            android:title="Service Settings"
+            android:persistent="false">
+            <PreferenceCategory android:title="Settings">
+                <SwitchPreference
+                    android:id="@+id/pref_service"
+                    android:title="@string/pref_svc"
+                    android:key="prefsvc"
+                    android:defaultValue="false"
+                    android:summary="@string/pref_svc_sum"/>
+                <SwitchPreference
+                    android:title="@string/pref_cloud"
+                    android:key="pref_cloud"
+                    android:defaultValue="true"
+                    android:summary="@string/pref_cloud_sum"
+                    android:dependency="prefsvc"/>
+
+            </PreferenceCategory>
+            <PreferenceCategory android:title="Auto Stop on Data Errors">
+                <SwitchPreference
+                    android:title="@string/pref_autoOff"
+                    android:key="pref_autoOff"
+                    android:defaultValue="true"
+                    android:summary="@string/pref_autoOff_sum"/>
+                <ListPreference
+                    android:id="@+id/pref_autoOffTimeOut"
+                    android:entries="@array/noDataAutoOffEntries"
+                    android:entryValues="@array/noDataAutoOffValues"
+                    android:key="pref_autoOffTimeOut"
+                    android:title="@string/pref_autoOffTimeOut"
+                    android:summary="@string/pref_autoOffTimeOut_sum"
+                    android:dependency="pref_autoOff"
+                    />
+
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:title="Refreshing">
+            <ListPreference
+                android:id="@+id/pref_refresh_interval"
+                android:entries="@array/intervalOptions"
+                android:entryValues="@array/intervalValues"
+                android:key="pref_refresh_interval"
+                android:title="@string/pref_refresh_interval"
+                android:summary="@string/pref_refresh_interval_sum"
+                />
+            <SwitchPreference
+                android:id="@+id/pref_smart_refresh"
+                android:title="@string/pref_smart_refresh"
+                android:key="pref_smart_refresh"
+                android:defaultValue="false"
+                android:summary="@string/pref_smart_refresh_sum"/>
+            </PreferenceCategory>
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <!-- Screen 1 - semi-serious options (except for behavior which is import) -->
+    <PreferenceCategory
+        android:title="Behavior Mode"
+        android:key="pref_account_behavior">
+
+        <PreferenceScreen
+            android:key="tts options"
+            android:title="Text to Speech"
+            android:summary="">
+            <SwitchPreference
+                android:id="@+id/pref_tts"
+                android:title="@string/pref_tts"
+                android:key="pref_tts"
+                android:defaultValue="false"
+                android:summary="@string/pref_tts_sum"/>
+            <SwitchPreference
+                android:id="@+id/pref_tts_muzzle"
+                android:title="@string/pref_tts_muzzle"
+                android:key="pref_tts_muzzle"
+                android:defaultValue="false"
+                android:dependency="pref_tts"
+                android:summary="@string/pref_tts_muzzle_sum"/>
+            <SwitchPreference
+                android:id="@+id/pref_tts_polite"
+                android:title="@string/pref_tts_polite"
+                android:key="pref_tts_polite"
+                android:defaultValue="false"
+                android:dependency="pref_tts"
+                android:summary="@string/pref_tts_polite_sum"/>
+        </PreferenceScreen>
+
+
+        <PreferenceScreen
+            android:key="notication options"
+            android:title="Appearances"
+            android:summary=""
+            >
+            <SwitchPreference
+                android:id="@+id/pref_razer_format"
+                android:title="@string/pref_razer"
+                android:key="pref_razer_format"
+                android:defaultValue="false"
+                android:summary="@string/pref_razer_sum" />
+            <SwitchPreference
+                android:id="@+id/pref_razer_critical"
+                android:title="@string/pref_razer_critical"
+                android:key="pref_razer_critical"
+                android:defaultValue="false"
+                android:summary="@string/pref_razer_critical_sum"/>
+            <SwitchPreference
+                android:id="@+id/pref_a1c"
+                android:title="@string/pref_a1c"
+                android:key="pref_a1c"
+                android:defaultValue="false"
+                android:summary="@string/pref_a1c_sum"/>
+            <SwitchPreference
+                android:id="@+id/pref_averageGraph"
+                android:title="@string/pref_averageGraph"
+                android:key="pref_averageGraph"
+                android:defaultValue="false"
+                android:summary="@string/pref_averageGraph_sum"/>
+            <ListPreference
+                android:id="@+id/pref_backgroundImages"
+                android:key="pref_backgroundImages"
+                android:title="@string/pref_solidBackground"
+                android:summary="@string/pref_solidBackground_sum"
+                android:entries="@array/backGround"
+                android:entryValues="@array/backGroundValues" />
+
+
+
+        </PreferenceScreen>
+
+        <SwitchPreference
+            android:id="@+id/pref_intro_tune"
+            android:title="@string/pref_intro_tune"
+            android:key="pref_intro_tune"
+            android:defaultValue="true"
+            android:summary="@string/pref_intro_tune_sum"/>
+    </PreferenceCategory>
+
+    <!-- Screen 1 - second to last option -->
+
+    <PreferenceCategory
+        android:title="Account"
+        android:key="pref_account_settings">
+
+        <PreferenceScreen android:title="Account Settings">
+            <SwitchPreference
+                android:id="@+id/pref_editAccount"
+                android:key="pref_editAccount"
+                android:defaultValue="false"
+                android:title="@string/pref_editAccount"
+                android:summary="@string/pref_editAccount_sum"/>
+            <Preference
+                android:id="@+id/pref_uid_value"
+                android:title="@string/pref_uid"
+                android:key="uid"
+                android:dialogTitle="Enter with format xxxx-xxxx-xxxx"
+                android:summary="No account entered"
+                android:dependency="pref_editAccount"
+            />
+            <EditTextPreference
+                android:id="@+id/pref_dextenderName"
+                android:title="@string/pref_dextenderName"
+                android:key="pref_dextenderName"
+                android:dialogTitle="Enter your username/password from dextender.com"
+                android:summary="not set"
+                android:dependency="pref_editAccount"
+                />
+            <!--Preference android:title="Invite Wizard"
+                android:key="pref_wizard"
+                android:dependency="pref_editAccount"
+                android:summary="Start the Invite Wizard"/ -->
+
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+
+    <!-- Screen 1 - Screen 1, last option -->
+    <PreferenceCategory
+        android:title="About">
+
+        <Preference android:title="About"
+            android:key="pref_about"
+            android:summary="About dExtender and our Staff"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

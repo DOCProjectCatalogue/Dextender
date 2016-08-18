@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragAlarm"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@mipmap/bg_space"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:orientation="horizontal" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/slider_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="36sp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text=""
+        android:textColor="@color/white"
+        android:orientation="horizontal" >
+    </TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="50dp"
+        android:paddingBottom="50dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/slider"
+        android:textColor="@color/white"
+        android:orientation="horizontal" >
+    </TextView>
+
+    <SeekBar
+        android:id="@+id/sbBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="33"
+        android:max="100"
+        android:progressDrawable="@android:color/transparent"
+        android:thumb="@mipmap/alarm"
+        android:hapticFeedbackEnabled="true"
+        android:paddingTop="40dp" />
+
+    <!-- TextViews for SeekBarlegend -->
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+    </RelativeLayout>
+
+    //TextView to display result
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="100dp"
+        android:paddingLeft="10dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:text="Progress: " />
+
+</LinearLayout>

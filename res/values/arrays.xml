@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="hardLowOptions">
+        <item>50</item>
+        <item>55</item>
+        <item>60</item>
+        <item>65</item>
+        <item>70</item>
+    </string-array>
+    <string-array name="hardLowValues">
+        <item>50</item>
+        <item>55</item>
+        <item>60</item>
+        <item>65</item>
+        <item>70</item>
+    </string-array>
+    <string-array name="intervalOptions">
+        <!--item>1 Minutes</item> -->
+        <item>5 Minutes</item>
+        <item>10 Minutes</item>
+        <item>15 Minutes</item>
+    </string-array>
+    <string-array name="intervalValues">
+        <!--item>1</item> -->
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+    </string-array>
+    <string-array name="bgDisplayUnitOptions">
+        <item>mg/dl</item>
+        <item>mmol/l</item>
+    </string-array>
+    <string-array name="bgDisplayUnitValues">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="sustainedTimeOptions">
+        <item>15 Minutes</item>
+        <item>30 Minutes</item>
+        <item>45 Minutes</item>
+        <item>1 Hour</item>
+        <item>1 Hour 15 Minutes</item>
+        <item>1 Hour 30 Minutes</item>
+        <item>1 Hour 45 Minutes</item>
+        <item>2 Hours</item>
+    </string-array>
+    <string-array name="sustainedTimeValues">
+        <item>15</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>75</item>
+        <item>90</item>
+        <item>105</item>
+        <item>120</item>
+    </string-array>
+
+    <string-array name="playTimeOptions">
+        <item>5 Seconds</item>
+        <item>10 Seconds</item>
+        <item>15 Seconds</item>
+        <item>20 Seconds</item>
+        <item>25 Seconds</item>
+        <item>30 Seconds</item>
+    </string-array>
+    <string-array name="playTimeValues">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+    </string-array>
+
+    <string-array name="bgSnoozeElapsedEntries">
+        <item>5 Minutes</item>
+        <item>10 Minutes</item>
+        <item>15 Minutes</item>
+    </string-array>
+    <string-array name="bgSnoozeElapsedValues">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+    </string-array>
+
+
+    <string-array name="noDataAutoOffEntries">
+        <item>10 Minutes</item>
+        <item>30 Minutes</item>
+        <item>1 Hour</item>
+        <item>1 Hour 30 Minutes</item>
+        <item>2 Hours</item>
+    </string-array>
+    <string-array name="noDataAutoOffValues">
+        <item>10</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </string-array>
+
+    <string-array name="serviceSnoozeElapsedEntries">
+        <item>5 Minutes</item>
+        <item>10 Minutes</item>
+        <item>15 Minutes</item>
+        <item>30 Minutes</item>
+        <item>45 Minutes</item>
+        <item>1 Hour</item>
+    </string-array>
+    <string-array name="serviceSnoozeElapsedValues">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+    </string-array>
+
+    <string-array name="trendEntries">
+        <item>Alarm when rising</item>
+        <item>Alarm when falling</item>
+    </string-array>
+    <string-array name="trendValues">
+        <item>1</item>
+        <item>-1</item>
+    </string-array>
+
+
+    <string-array name="whenToAnnoyEntries">
+        <item>Immediately</item>
+        <item>After 1 alert</item>
+        <item>After 2 alerts</item>
+        <item>After 3 alerts</item>
+        <item>After 4 alerts</item>
+        <item>After 5 alerts</item>
+    </string-array>
+    <string-array name="whenToAnnoyValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+
+    <string-array name="predictSamples">
+        <item>Previous 3 samples\n (15 minutes)</item>
+        <item>Previous 4 samples\n (20 minutes)</item>
+        <item>Previous 5 samples\n (25 minutes)</item>
+        <item>Previous 6 samples\n (30 minutes)</item>
+    </string-array>
+    <string-array name="predictSampleValues">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string-array name="predictLookAhead">
+        <item>Next reading</item>
+        <item>Next two(2) readings</item>
+        <item>Next three(3) readings</item>
+    </string-array>
+    <string-array name="predictLookAheadValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+
+    <string-array name="backGround">
+        <item>black</item>
+        <item>Space</item>
+        <item>Space Stars</item>
+        <item>Space Nebula</item>
+        <item>Milky Way</item>
+        <item>Summer Nights with Palm Trees</item>
+        <item>Trakai Lake</item>
+        <item>Water Bubbles</item>
+        <item>Gloomy Trees</item>
+        <item>Fireworks</item>
+        <item>Halloween 1</item>
+        <item>Halloween 2</item>
+        <item>Halloween 3 (2 Pumpkins)</item>
+        <item>Halloween 4 (Scary)</item>
+        <item>Christmas</item>
+        <item>Christmas 2</item>
+        <item>Christmas 3</item>
+        <item>Christmas 4 (Glowing light)</item>
+        <item>Christmas 5 (Blue Ornament)</item>
+        <item>Snowman</item>
+        <item>Hanukkah</item>
+        <item>Mountain Sky</item>
+        <item>Winter Trees</item>
+    </string-array>
+    <string-array name="backGroundValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+    </string-array>
+
+
+
+</resources>

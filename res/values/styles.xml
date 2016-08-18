@@ -1,0 +1,47 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo">
+        <!-- Customize your theme here. -->
+        <!-- MLV - This references the style that was added below -->
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
+        <item name="android:actionBarWidgetTheme">@style/Theme.stylingactionbar.widget</item>
+
+    </style>
+
+
+    <!-- Where it says 'Dextender' next to the tapir icon -->
+    <style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@color/sa_purple</item>
+        <item name="android:backgroundStacked">@color/stacked_purple</item>
+        <item name="android:backgroundSplit">@color/sa_purple</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="PopupMenu" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/deep_purple</item>
+        <item name="android:backgroundStacked">@color/deep_purple</item>
+        <item name="android:backgroundSplit">@color/deep_purple</item>
+    </style>
+
+    <!--style name="DropDownListView" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse" -->
+     <style name="DropDownListView" parent="android:Theme.Holo.Light">
+         <item name="android:background">@color/overflow_blue</item>
+         <item name="android:backgroundStacked">@color/overflow_blue</item>
+         <item name="android:backgroundSplit">@color/overflow_blue</item>
+    </style>
+
+    <style name="Theme.stylingactionbar.widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
+    </style>
+
+    <!-- Make the background black - menu bar we will hide in the activity -->
+    <style name="PreferencesTheme" parent="android:Theme.Holo">
+        <!--<item name="android:background">#000000</item> -->
+    </style>
+
+
+</resources>
