@@ -774,7 +774,7 @@ public class MyService extends IntentService {
                             int dbRecords;
                             int[] bgArray= new int[MAX_LOOKBACK];
                             int[] projectedValues = new int[MAX_PROJECTIONS];
-                            long pastTime=(System.currentTimeMillis() / 1000) - (60*pref_predictSampleCount);
+                            //long pastTime=(System.currentTimeMillis() / 1000) - (60*pref_predictSampleCount);
                             dbRecords=(myDb.getLastBgDataAsArray(bgArray, (System.currentTimeMillis() / 1000) - (60*10*pref_predictSampleCount), pref_predictSampleCount));
                             if(dbRecords == pref_predictSampleCount) {
                                 tools.projectedBgValue(bgArray, pref_predictSampleCount, projectedValues);                         // calculate the predicted BG value

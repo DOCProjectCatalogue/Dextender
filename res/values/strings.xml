@@ -39,6 +39,7 @@
 
     <!-- Fragment 2 -->
     <string name="frag2_bgTitle">101</string>
+    <string name="frag2_predictBgValue">--</string>
     <string name="frag2_serviceWarning">Your connection settings are turned off.</string>
     <string name="frag2_novalueMsg">Not enough values</string>
     <string name="frag2Label3">Average</string>

@@ -64,6 +64,9 @@ public class fragment_2 extends Fragment implements View.OnClickListener {
         long lowestBgTime=0;
         long highestBgTime=0;
 
+        final short MAX_PROJECTIONS = 6;  // No way we are going to project for more than 30 minutes
+        final short MAX_LOOKBACK    = 12; // how many readings back do we use as a sample for projecting bg numbers
+
 
         //Long   offsetId;                                                                            // Used to display the BG at the top of the chart
         String bgRecords = "-|-|-";                                                                 //  " " "
@@ -120,6 +123,14 @@ public class fragment_2 extends Fragment implements View.OnClickListener {
         boolean a1cFlag = prefs.getBoolean("pref_a1c", false);
 
         //----------------------------------------------------------------
+        // Show predictive
+        //----------------------------------------------------------------
+        int pref_predictSampleCount=0;
+        if(prefs.getBoolean("pref_predictive", false)) {
+            pref_predictSampleCount = Integer.parseInt(prefs.getString("pref_predictiveSampleCount", "0"));
+        }
+
+        //----------------------------------------------------------------
         // Graph the results
         //------------------------------------------------------
         MyScatterGraph sgraph = new MyScatterGraph();
@@ -140,6 +151,7 @@ public class fragment_2 extends Fragment implements View.OnClickListener {
 
         TextView chartMsg   = (TextView)  v.findViewById(R.id.frag2chartmsg);                        // The BG value that we display on top of the chart
         ImageView chartImg  = (ImageView) v.findViewById(R.id.frag2bgIcon);
+        TextView predictVal = (TextView)  v.findViewById(R.id.frag2predictBgValue);
         TextView lowBgMsg   = (TextView)  v.findViewById(R.id.frag2LowBg);
         TextView lowBgTime  = (TextView)  v.findViewById(R.id.frag2TimeLowBg);
         TextView highBgMsg  = (TextView)  v.findViewById(R.id.frag2HighBg);
@@ -211,6 +223,33 @@ public class fragment_2 extends Fragment implements View.OnClickListener {
                         chartImg.setImageResource(R.mipmap.s0);
                         break;
                 }
+
+                //-----------------------------------------------------------
+                // Get the predicted value
+                //-----------------------------------------------------------
+                if (prefs.getBoolean("pref_predictive", false)) {
+                    int dbRecords;
+                    int[] bgArray = new int[MAX_LOOKBACK];
+                    int[] projectedValues = new int[MAX_PROJECTIONS];
+                    //long pastTime = (System.currentTimeMillis() / 1000) - (60 * pref_predictSampleCount);
+                    dbRecords = (myDb.getLastBgDataAsArray(bgArray, (System.currentTimeMillis() / 1000) - (60 * 10 * pref_predictSampleCount), pref_predictSampleCount));
+                    if (dbRecords == pref_predictSampleCount) {
+                        myTools.projectedBgValue(bgArray, pref_predictSampleCount, projectedValues);                         // calculate the predicted BG value
+                        if (projectedValues[0] != -1) {
+                            predictVal.setText("Predict: " + String.valueOf(projectedValues[0]));
+                        } else {
+                            predictVal.setText("");
+                        }
+                    } else {
+                        predictVal.setText("");
+                    }
+                }
+                else {
+                    predictVal.setText("");
+                }
+                //------------------------
+                // END predict
+                //------------------------
             }
             else {
                 chartMsg.setText("---");
