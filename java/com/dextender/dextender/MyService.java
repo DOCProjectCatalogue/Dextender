@@ -225,12 +225,12 @@ public class MyService extends IntentService {
             final short LOW_ALARM = 2;
             final short HIGH_ALARM = 3;
             final short SUSTAINED_ALARM = 4;
-            final short DATA_ERROR_ALARM=5;
+            final short DATA_ERROR_ALARM=5;    // If there is no data coming in from the network
             final short TARGET_HIGH_ALARM=6;
             final short TARGET_LOW_ALARM=7;
             final short TREND_LOW_ALARM=8;
             final short TREND_HIGH_ALARM=9;
-            final short DATA_ERROR_ALARM2=10;
+            final short DATA_ERROR_ALARM2=10;  // if the data from the database is all screwed up
 
 
 
@@ -258,18 +258,19 @@ public class MyService extends IntentService {
 
             int pref_highTarget             = Integer.parseInt(prefs.getString("followListHigh", "180"));                // Get the prefs as an int
             int pref_lowTarget              = Integer.parseInt(prefs.getString("followListLow", "70"));                  // Get the prefs as an int
-            int lowSnoozeTime               = Integer.parseInt(prefs.getString("pref_lowSnoozeElapse", "5"))*60;         // Number of minutes to snooze
-            int highSnoozeTime              = Integer.parseInt( prefs.getString("pref_highSnoozeElapse", "5"))*60;       // Number of minutes to snooze
-            int trendSnoozeTime             = Integer.parseInt( prefs.getString("pref_trendSnoozeElapse", "5"))*60;       // Number of minutes to snooze
-            int dataErrSnoozeTimeInSecs     = 300;                                                                       // Number of minutes to snooze expressed in seconds
+            int lowSnoozeTime               = Integer.parseInt(prefs.getString("pref_lowSnoozeElapse", "5"))*60;         // Number of minutes to snooze, convert to seconds
+            int highSnoozeTime              = Integer.parseInt( prefs.getString("pref_highSnoozeElapse", "5"))*60;       // Number of minutes to snooze, convert to seconds
+            int trendSnoozeTime             = Integer.parseInt( prefs.getString("pref_trendSnoozeElapse", "5"))*60;      // Number of minutes to snooze, convert to seconds
+            int dataErrSnoozeTimeInSecs     = 300;                                                                       // Number of minutes to snooze, convert to seconds
 
             int pref_sustained              = Integer.parseInt(prefs.getString("sustainedListHigh", "140"));
             int warnSustainedTime           = Integer.parseInt(prefs.getString("sustainedTimeHigh","45"))*60;
 
             int pref_highAlarmCount         = Integer.parseInt(prefs.getString("pref_highAlarmCount", "3"));
+            int pref_refreshInterval        = Integer.parseInt(prefs.getString("pref_refresh_interval", "5"));
 
-            final boolean pref_smartRefresh       = prefs.getBoolean("pref_smart_refresh", false);
-            final boolean pref_sustainedHighFlag  = prefs.getBoolean("pref_smartLimit", false);           // Do we want to use the smart limits ?
+            final boolean pref_smartRefresh       = prefs.getBoolean("pref_smart_refresh", false);                      // do we want to use smart refresh ?
+            final boolean pref_sustainedHighFlag  = prefs.getBoolean("pref_smartLimit", false);                         // do we want to use the sustained high alarm ?
             final boolean pref_trendLow           = prefs.getBoolean("pref_trendLow", false);
             final boolean pref_trendHigh          = prefs.getBoolean("pref_trendHigh", false);
             final boolean pref_startTrailingHigh  = prefs.getBoolean("pref_startTrailingHigh", false);
@@ -359,32 +360,39 @@ public class MyService extends IntentService {
                 // This will let us know when to sleep, and how many times
                 // NOTE: A low under 50 gets alarmed every run !!
                 //---------------------------------------------------------
-                String[] tmpStringArr = new String[1];
+                String[]  tmpStringArr = new String[1];
+                String[]  tmpStringArr2 = new String[1];
                 Integer[] tmpIntArr   = new Integer[1];
 
-
-                myDb.getAlarm(ALL_ALARMS, tmpStringArr, tmpIntArr);
+                myDb.getAlarm(ALL_ALARMS, tmpStringArr, tmpIntArr, tmpStringArr2);
                 Long lastAlarmTime= Long.parseLong(tmpStringArr[0]);
+                //Long firstAllAlarmTime = Long.parseLong(tmpStringArr2[0]);
 
-                myDb.getAlarm(LOW_ALARM, tmpStringArr, tmpIntArr);
+                myDb.getAlarm(LOW_ALARM, tmpStringArr, tmpIntArr, tmpStringArr2);
                 Long lastLowAlarmTime= Long.parseLong(tmpStringArr[0]);
+                //Long firstLowAlarmTime = Long.parseLong(tmpStringArr2[0]);
 
-                myDb.getAlarm(HIGH_ALARM, tmpStringArr, tmpIntArr);
+                myDb.getAlarm(HIGH_ALARM, tmpStringArr, tmpIntArr, tmpStringArr2);
                 Long lastHighAlarmTime=Long.parseLong(tmpStringArr[0]);
+                //Long firstHighAlarmTime = Long.parseLong(tmpStringArr2[0]);
                 int highBgAlarmCount = tmpIntArr[0];
 
-                myDb.getAlarm(SUSTAINED_ALARM, tmpStringArr, tmpIntArr);
+                myDb.getAlarm(SUSTAINED_ALARM, tmpStringArr, tmpIntArr, tmpStringArr2);
                 Long lastSustainedTime=Long.parseLong(tmpStringArr[0]);
+                //Long firstSustainedAlarmTime = Long.parseLong(tmpStringArr2[0]);
 
-                myDb.getAlarm(DATA_ERROR_ALARM, tmpStringArr, tmpIntArr);
+                myDb.getAlarm(DATA_ERROR_ALARM, tmpStringArr, tmpIntArr, tmpStringArr2);
                 long lastDataErrAlarmTime=Long.parseLong(tmpStringArr[0]);
+                Long firstDataErrAlarmTime = Long.parseLong(tmpStringArr2[0]);
                 int dataErrAlarmCount = tmpIntArr[0];
 
-                myDb.getAlarm(TREND_LOW_ALARM, tmpStringArr, tmpIntArr);
+                myDb.getAlarm(TREND_LOW_ALARM, tmpStringArr, tmpIntArr, tmpStringArr2);
                 Long lastLowTrendAlarmTime= Long.parseLong(tmpStringArr[0]);
+                //Long firstLowTrendAlarmTime = Long.parseLong(tmpStringArr2[0]);
 
-                myDb.getAlarm(TREND_HIGH_ALARM, tmpStringArr, tmpIntArr);
+                myDb.getAlarm(TREND_HIGH_ALARM, tmpStringArr, tmpIntArr, tmpStringArr2);
                 Long lastHighTrendAlarmTime= Long.parseLong(tmpStringArr[0]);
+                //Long firstHighTrendAlarmTime = Long.parseLong(tmpStringArr2[0]);
 
                 //==================================================================================
                 // Our DEXCOM SHARE (toggle switch) is ON
@@ -411,16 +419,19 @@ public class MyService extends IntentService {
 
                     //--------------------------------------------------------------
                     // Get records from the web
+                    // NOTE: bgMinutes is only used to calculate how many records
+                    // request to send to dexcom
                     //--------------------------------------------------------------
-                    String bgMinutes;              // Minutes back we need to look for bg values
 
-                    int lastDexTime = (int) (((System.currentTimeMillis() / 1000) - myDb.getLastDexBgTime() ) / 60);
+                    int lastDexTime = (int) (((System.currentTimeMillis() / 1000) - myDb.getLastDexBgTime() ) / 60); // epoc now - epoc then (convert to minutes)
+                    Log.d("SERVICE", "Difference between dextime and current epoc - " + ((System.currentTimeMillis() / 1000) - myDb.getLastDexBgTime() ));
 
+                    String bgMinutes;                                                               // Minutes back we need to look for bg values
                     lastDexTime = tools.roundUp(lastDexTime, 5) -5;
                     if (lastDexTime <= 5) bgMinutes = "5";
                     else                  bgMinutes = String.valueOf(lastDexTime);
 
-// was  else bgMinutes = String.valueOf(lastDexTime-5);
+
                     //------------------------------------------------------------------------------
                     // WHY THE ABOVE IS A COMPLETE HACK !!
                     // If my last record was 7:00 AM and it's now 7:10, I want records from the last
@@ -459,27 +470,32 @@ public class MyService extends IntentService {
                         if (sessionInfo[0] != null && !sessionInfo[0].isEmpty()) {
                             if (!accountId.equals("0")) {
                                 try {
+
                                     webUrl_4bg = new URI(getString(R.string.http_bg_url) +
                                             "?sessionId="      + sessionInfo[0] +
                                             "&subscriptionId=" + sessionInfo[1] +
                                             "&minutes="        + bgMinutes      +
                                             "&maxCount="       + String.valueOf(MAX_BG_RECORDS)
                                     );
-                                    //Log.d("MyService", "URL-->" + webUrl_4bg);
+                                    Log.d("MyService", "URL-->" + webUrl_4bg);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
 
                                 webResponse = http.webGetBg(webUrl_4bg, message).split("\\|");
-                                //Log.d("MyService", "Response -->" + webResponse[1]);
+                                Log.d("MyService", "Response -->" + webResponse[1]);
                                 //------------------------------------------
                                 // Remember, it will be one giant string
                                 //------------------------------------------
-                                if (webResponse[0].equals("11000000") && (!webResponse[1].equals("[]"))) {                            // we got BG values
-                                    looper = false;                                                 // we got records, so quit while
-                                    recordsRead = tools.processCloudBgRecords(webResponse[1], timeArrayStr, bgArrayStr, trendArrayStr);
+                                if (webResponse[0].equals("11000000")) {
+                                    if (!webResponse[1].equals("[]")) {
+                                        looper = false;                                                 // we got records, so quit while
+                                        recordsRead = tools.processCloudBgRecords(webResponse[1], timeArrayStr, bgArrayStr, trendArrayStr);
+                                    }
+                                    else {                                                          // everything is cool, except..
+                                        attemptReconnect=true;                                      // .. there's no data. so just stop
+                                    }
                                 }
-
                             }
                         }
 
@@ -488,7 +504,7 @@ public class MyService extends IntentService {
                         // info isn't correct - so let's get the ACCOUNT information
                         //------------------------------------------------------------------
                         // Log.d("MyService", "Records read " + recordsRead + " attempReconnect" + attemptReconnect);
-                        if( (recordsRead == 0) && (!attemptReconnect)) {
+                        if( (recordsRead == 0) && (!attemptReconnect)){
 
                             attemptReconnect=true;                                                  // we only want to try to reconnect once
                             //------------------
@@ -835,11 +851,17 @@ public class MyService extends IntentService {
                 //----------------------------------------------------------------------------------
                 if (alarmFlag) {                                                                    // alarm has been set
                     myDb.updateAlarm(ALL_ALARMS, 1);                                                // set the flag that one of the alarms went off
-                    if(pref_smartRefresh) {                                                         // if we're in the low/high, then if they want smart alarm, override the refresh
-                        setAlarm(5, myDb.getLastDexBgTime());
+                    if (    (alarmLevel != CRITICAL_LOW_ALARM) &&
+                            (alarmLevel != DATA_ERROR_ALARM)) {
+
+                            setAlarm(pref_refreshInterval, myDb.getLastDexBgTime());                // if we alarmed, next refreshes are 5 minutes.. unless
                     }
+
+
+
                     switch (alarmLevel) {
-                        case 1:
+                        case CRITICAL_LOW_ALARM:
+                            setAlarm(pref_refreshInterval, myDb.getLastDexBgTime());
                             if(pref_hardLowBehavior) {                                              // yes, we want annoying
                                 if (!criticalAlarm(lastBgValue, CRITICAL_LOW_ALARM))
                                     myDb.logIt(LOG_LEVEL_ERROR, "Could not invoke the critical alarm");
@@ -863,7 +885,7 @@ public class MyService extends IntentService {
                             if(lastDataErrAlarmTime != 0) myDb.clearAlarm(DATA_ERROR_ALARM);
 
                             break;
-                        case 2: // regular low
+                        case LOW_ALARM: // regular low
                             if(lowSoundFile != null) {
                                 if ((lowSnoozeTime + lastLowAlarmTime + fuzzySeconds) <= (System.currentTimeMillis() / 1000)) {
                                     myDb.logIt(LOG_LEVEL_LOW, "Low alarm set - value: " + lastBgValue);
@@ -888,7 +910,7 @@ public class MyService extends IntentService {
                             if(lastDataErrAlarmTime != 0) myDb.clearAlarm(DATA_ERROR_ALARM);
                             myDb.clearAlarm(CRITICAL_LOW_ALARM);
                             break;
-                        case 3: // regular high
+                        case HIGH_ALARM: // regular high
                             if (highSoundFile != null) {       // we are running high
                                 if (((highSnoozeTime + lastHighAlarmTime + fuzzySeconds) <= (System.currentTimeMillis() / 1000)) || (lastHighAlarmTime == 0)) {
                                     myDb.logIt(LOG_LEVEL_HIGH, "High alarm set - value: " + lastBgValue);
@@ -917,7 +939,7 @@ public class MyService extends IntentService {
                             //myDb.clearAlarm(LOW_ALARM);
                             if(lastDataErrAlarmTime != 0) myDb.clearAlarm(DATA_ERROR_ALARM);
                             break;
-                        case 4: // sustained high
+                        case SUSTAINED_ALARM: // sustained high
                             if (shighSoundFile != null) {       // we are running high
                                 myDb.logIt(LOG_LEVEL_HIGH, "Sustained high alarm set");
                                 if(pref_tts)
@@ -936,11 +958,16 @@ public class MyService extends IntentService {
                         case DATA_ERROR_ALARM2:
                         case DATA_ERROR_ALARM: // data error
 
+                            Log.d("SERVICE", "in data alarm switch section - setting alarm for 2.0 minutes");
+                            setAlarm(2, myDb.getLastDexBgTime());                                 // Refresh in 2.5 minutes on data issues
+
                             //-------------------------------------------------------------------------
                             // we don't alarm on the first data error. But we do set the alarm count
                             //-------------------------------------------------------------------------
                             if (lastDataErrAlarmTime == 0) {
                                 myDb.updateAlarm(DATA_ERROR_ALARM, 1);
+                                Log.d("SERVICE", "This was our first data error");
+
                             }
                             else {
                                 if ( ( (dataErrSnoozeTimeInSecs + lastDataErrAlarmTime + fuzzySeconds) <= (System.currentTimeMillis() / 1000)) ) {
@@ -949,40 +976,43 @@ public class MyService extends IntentService {
 
                                     boolean soundAlarmFlag=false;
                                     dataErrAlarmCount++;
+
+                                    myDb.updateAlarm(DATA_ERROR_ALARM, dataErrAlarmCount);
+                                    Log.d("SERVICE", "Data error count is (even count does nothing) -->" + dataErrAlarmCount);
+
                                     //--------------------------------------------------------------
                                     // some special logic for this guy
                                     // if we've hit a threshold, then turn off services
                                     // automatically
-                                    // Alarm count * snoozetime > 60
+                                    // (First time + (ie. 30)
                                     //--------------------------------------------------------------
-                                    // Log.d("MyService[case 5]", "dataErrAlarmCount:" + dataErrAlarmCount + " - Prefs:" + prefs.getString("pref_autoOffTimeOut", "60"));
-                                    if (prefs.getBoolean("pref_autoOff", true)) {
-                                        if (((dataErrAlarmCount) * 5) >=  Integer.parseInt(prefs.getString("pref_autoOffTimeOut", "30") )) {
-                                            myDb.updateAlarm(DATA_ERROR_ALARM, 1);
-                                            turnOffServices(getApplicationContext());
-                                            if (autoOffSoundFile != null) {
+                                    if(dataErrAlarmCount % 2 == 1) {                                // since we wakeup every 2.5 minutes, the first error is free, the next we have an issue
+                                        // Log.d("MyService[case 5]", "dataErrAlarmCount:" + dataErrAlarmCount + " - Prefs:" + prefs.getString("pref_autoOffTimeOut", "60"));
+                                        if (prefs.getBoolean("pref_autoOff", true)) {
+                                            if (firstDataErrAlarmTime + (Integer.parseInt(prefs.getString("pref_autoOffTimeOut", "30")) * 60) <= System.currentTimeMillis() / 1000) {
+                                                myDb.clearAlarm(DATA_ERROR_ALARM);
+                                                turnOffServices(getApplicationContext());
+                                                if (autoOffSoundFile != null) {
 
-                                                soundAlarm(autoOffSoundFile, vibrate, override, maxPlayTime, false, false, null, null, false, null);
-                                                soundAlarmFlag=true;
+                                                    soundAlarm(autoOffSoundFile, vibrate, override, maxPlayTime, false, false, null, null, false, null);
+                                                    soundAlarmFlag = true;
+                                                }
+                                                myDb.logIt(LOG_LEVEL_WARNING, "Services have been turned off, please see settings");
+                                                updateNotification(0, 0, tools.epoch2FmtTime(System.currentTimeMillis() / 1000, "hh:mm a"), false, false, "services have been automatically turned off");
                                             }
-                                            myDb.logIt(LOG_LEVEL_WARNING, "Services have been turned off, please see settings");
-                                            updateNotification(0,0, tools.epoch2FmtTime(System.currentTimeMillis() / 1000, "hh:mm a"), false, false, "services have been automatically turned off");
                                         }
-                                        else {
-                                            myDb.updateAlarm(DATA_ERROR_ALARM, dataErrAlarmCount);
+
+                                        //Log.d("MyService", "Soundfile" + dataErrSoundFile + " alarmFlag" + soundAlarmFlag);
+
+                                        if (dataErrSoundFile != null && !soundAlarmFlag) {              // we didn't play the "I'm turning off services notification sound
+                                            soundAlarm(dataErrSoundFile, vibrate, override, maxPlayTime, false, false, null, null, false, null);
                                         }
-                                    }
-
-                                    //Log.d("MyService", "Soundfile" + dataErrSoundFile + " alarmFlag" + soundAlarmFlag);
-
-                                    if (dataErrSoundFile != null && !soundAlarmFlag) {              // we didn't play the "I'm turning off services notification sound
-                                        soundAlarm(dataErrSoundFile, vibrate, override, maxPlayTime, false, false, null, null, false, null);
                                     }
                                 }
                             }
 
                             break;
-                        case 6: // trailing high
+                        case TARGET_HIGH_ALARM: // trailing high
                             if(trailingHighAlarmTone != null) {
                                 if(newHighLimit == pref_highTarget) {
                                     say("The target high is now " + pref_highTarget);
@@ -997,7 +1027,7 @@ public class MyService extends IntentService {
                             }
                             if(lastDataErrAlarmTime != 0) myDb.clearAlarm(DATA_ERROR_ALARM);
                             break;
-                        case 7: // trailing low
+                        case TARGET_LOW_ALARM: // trailing low
                             if(trailingLowAlarmTone != null) {
                                 if(newLowLimit == pref_lowTarget) {
                                     say("The target low is now " + pref_lowTarget);
@@ -1011,7 +1041,7 @@ public class MyService extends IntentService {
                             }
                             if(lastDataErrAlarmTime != 0) myDb.clearAlarm(DATA_ERROR_ALARM);
                             break;
-                        case 8:
+                        case TREND_LOW_ALARM:
                             if(lowTrendAlarmTone != null) {
                                 //Log.d("MyService " , "trendsnoozetime" + trendSnoozeTime + " lastLowTrendAlarmTime" + lastLowTrendAlarmTime);
                                 //Log.d("MyService ", "system current time"  + System.currentTimeMillis()/1000);
@@ -1025,7 +1055,7 @@ public class MyService extends IntentService {
                             }
                             if(lastDataErrAlarmTime != 0) myDb.clearAlarm(DATA_ERROR_ALARM);
                             break;
-                        case 9:
+                        case TREND_HIGH_ALARM:
                             if(highTrendAlarmTone != null) {
                                 if ((trendSnoozeTime + lastHighTrendAlarmTime + fuzzySeconds) <= (System.currentTimeMillis() / 1000)) {
                                     soundAlarm(highTrendAlarmTone, false, false, maxPlayTime, false, false,
@@ -1046,20 +1076,19 @@ public class MyService extends IntentService {
                 else {
                     if( pref_smartRefresh ) {                                                       // we have smart alarming and out trend is currently stable
                         if(safeTrend)     setAlarm(15, myDb.getLastDexBgTime());
-                        else              setAlarm(5,  myDb.getLastDexBgTime());
+                        else              setAlarm(pref_refreshInterval,  myDb.getLastDexBgTime());
+                    }
+                    else {
+                                          setAlarm(pref_refreshInterval,  myDb.getLastDexBgTime());
                     }
                     if(lastAlarmTime != 0 )       myDb.clearAlarm(ALL_ALARMS);
                     if(lastLowAlarmTime != 0)     myDb.clearAlarm(LOW_ALARM);
                     if(lastHighAlarmTime != 0)    myDb.clearAlarm(HIGH_ALARM);
-                    //if(lastSustainedTime != 0)    myDb.clearAlarm(SUSTAINED_ALARM);
                     if(lastLowTrendAlarmTime!=0)  myDb.clearAlarm(TREND_LOW_ALARM);
                     if(lastHighTrendAlarmTime!=0) myDb.clearAlarm(TREND_HIGH_ALARM);
                                                   myDb.clearAlarm(DATA_ERROR_ALARM);                // if no error at all, clear alarm for data
                 }
 
-                if(! pref_smartRefresh) {
-                    setAlarm(5,  myDb.getLastDexBgTime());
-                }
             }                                                                                       // end of service mode
             else {                                                                                  // our services are off
                 //Log.d("SERVICE", "Database RC:" + dbRc);
@@ -1214,11 +1243,11 @@ public class MyService extends IntentService {
             //---------------------------------------------------------------------------------------------
             // http://android.konreu.com/developer-how-to/vibration-examples-for-android-phone-development/
             //---------------------------------------------------------------------------------------------
-            int dot = 200;      // Length of a Morse Code "dot" in milliseconds
-            int dash = 500;     // Length of a Morse Code "dash" in milliseconds
-            int short_gap = 200;    // Length of Gap Between dots/dashes
+            int dot        = 200;   // Length of a Morse Code "dot" in milliseconds
+            int dash       = 500;   // Length of a Morse Code "dash" in milliseconds
+            int short_gap  = 200;   // Length of Gap Between dots/dashes
             int medium_gap = 500;   // Length of Gap Between Letters
-            int long_gap = 1000;    // Length of Gap Between Words
+            int long_gap   = 1000;  // Length of Gap Between Words
             long[] pattern = {
                     0,  // Start immediately
                     dot, short_gap, dot, short_gap, dot,    // s
@@ -1347,7 +1376,7 @@ public class MyService extends IntentService {
         if(bgNotificationFlag) {
 
             if (inValue < 40)
-                tmpBgString = "nilow";                                                     // What value to display way up top
+                tmpBgString = "nilow";                                                                // What value to display way up top
             else {
                 if (inValue > 400) {
                     tmpBgString = "nihigh";
@@ -1620,17 +1649,26 @@ public class MyService extends IntentService {
     // inMinutes is our preference
     // inDexTime is the time the receiver recorded data (as per share)
     //--------------------------------------------------------------------------------------------
-    public boolean setAlarm(int inMinutes, long inEpochLastTime) {
+    public boolean setAlarm(double inMinutes, long inEpochLastDexTime) {
         //===============================================================
         // Clear the alarm just in case we get hosed up
         //===============================================================
+        Log.d("SERVICE", "set alarm called with inminutes=" + inMinutes);
+
+        //---------------------------------------------------------------
+        // Since the alarm is inexact, we can be off by a few seconds
+        // on either side (a few seconds early or late)
+        // Let's make it 10 (total overkill) just to be safe
+        // - dexLagTime is the lag between what the receiver reads and
+        //   the timeit's avi
+        //---------------------------------------------------------------
+        int fuzzyTime=10;
+        int dexLagTime=120;                                        // let's do a 2 minute lag time
 
         // setup the alarm manager
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         // setup the intent to do stuff with the service
-        //Intent serviceIntent = new Intent(this, MyService.class);
-
         Intent i = new Intent(this, MyReceiver.class);
 
         // Was 'getService' - Changed to 'getBroadcast'
@@ -1640,6 +1678,10 @@ public class MyService extends IntentService {
         // Kill any stragglers (if any )
         alarmManager.cancel(pendingIntent);
 
+        //----------------------------------------------------------------
+        // Because above kills the next run, bolting at this point leaves
+        // the alarm manager with nothing.. which is what we want
+        //----------------------------------------------------------------
         if (inMinutes == 0) {
             stopSelf();
             return false;
@@ -1654,23 +1696,40 @@ public class MyService extends IntentService {
             double calcSeconds;
             // convert to millis - will get killed before firing
 
+            //======================================================================================
+            // Explanation for people like me with a touch of ADD.
+            // If the current time is 10AM and the last time we got data was 9:53, then default to
+            // the standard refresh. Why not just do some math to figure it out ?
+            // Because, what if there is no data ? I don't think it's wise firing every 30 seconds
+            // to get data that may not be there.
+            // But what about no data during the interval. Well.. thats why we are going to do some
+            // math for that..
 
-            if (inEpochLastTime != 0) {
-                if (((System.currentTimeMillis() / 1000) - inEpochLastTime) >= ((inMinutes * 60))) {      // we are late to refresh
-                    calcSeconds = inMinutes * 60;                                                       // ie . make it 5 minutes
+            Log.d("service", "Dextime is   : " + inEpochLastDexTime);
+            Log.d("service", "current time : " + System.currentTimeMillis()/1000);
+            Log.d("service", "difference   : " + ((System.currentTimeMillis()/1000) - inEpochLastDexTime));
+            Log.d("service", "inSeconds    : " + (inMinutes*60));
+
+            if (inEpochLastDexTime != 0) {                                                          // there is a value
+
+                if (((System.currentTimeMillis() / 1000) - inEpochLastDexTime) >= ((inMinutes * 60)+ fuzzyTime)) { // we are late to refresh
+                    calcSeconds = inMinutes * 60;                                                   // ie . make it 5 minutes
                 } else {
-                    calcSeconds = (300 - ((System.currentTimeMillis() / 1000) - inEpochLastTime));   // 120 is a fuzzy offset
+                    calcSeconds = (inMinutes - ((System.currentTimeMillis() / 1000) - inEpochLastDexTime));   //
+                    calcSeconds += dexLagTime;
                 }
-            } else {
+
+
+            } else {                                                                                // we are explicitly told to refresh
                 calcSeconds = inMinutes * 60;
             }
 
             long whenToFire = SystemClock.elapsedRealtime() + ((long) calcSeconds * 1000);
-            long whenToFireAfterThat = inMinutes * 60 * 1000;
+            long whenToFireAfterThat = (long) inMinutes * 60 * 1000;
 
-            //Log.d("service time: ", "Dextime is :" + inDexTime);
-            //Log.d("service time: ", "Alarm will fire in  : " + calcSeconds + " seconds");
-            //Log.d("service time: ", "..and after that    : " + whenToFireAfterThat);
+
+            Log.d("service", "Alarm will fire in  : " + calcSeconds + " seconds");
+            Log.d("service", "..and after that    : " + whenToFireAfterThat/1000);
 
             alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,                      // wakeup and fire
                     whenToFire,   // when (in milliseconds)

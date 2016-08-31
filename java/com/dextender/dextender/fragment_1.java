@@ -88,8 +88,8 @@ public class fragment_1 extends Fragment implements View.OnClickListener {
         // See if preferences are set to prohibit us from accessing the network
         //---------------------------------------------------------------------------------
         if ( (!serviceStatus) || (!cloudStatus) ) {
-            message.setBackgroundColor(getResources().getColor(R.color.stacked_purple));
-            filler1.setBackgroundColor(getResources().getColor(R.color.stacked_purple));
+            message.setBackgroundColor(getResources().getColor(R.color.red));
+            filler1.setBackgroundColor(getResources().getColor(R.color.red));
             message.setText(getString(R.string.frag2_serviceWarning));
         }
 

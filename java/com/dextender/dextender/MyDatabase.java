@@ -45,11 +45,11 @@ public class MyDatabase {
     public static final String DATABASE_TABLE_MESSAGES="dexMessages";
     public static final String DATABASE_TABLE_OPTIONS="dexOptions";
     public static final String DATABASE_TABLE_TREND="dexTrend";
-    public static final int    DATABASE_VERSION=12;
+    public static final int    DATABASE_VERSION=15;
 
     // DB version 10 = PROD version 2.0
     // DB version 11 = "Belmar 2.1.0.035"
-    // DB version 12 = "Cape May 3"
+    // DB version 12/13 = "Cape May 3 (not yet released)
 
     MyTools tools = new MyTools();                                                  // Call the httpd class
 
@@ -105,6 +105,7 @@ public class MyDatabase {
     public static final String COL_ALARM_ID    = "alarm_id";                                        // Either 1(low), 2(high) or 3(sustained)
     public static final String COL_ALARM_COUNT = "alarm_count";                                     // The number of times we've called this alarm
     public static final String COL_ALARM_TIME = "last_update";                                      //  The time we alarmed
+    public static final String COL_FIRST_ALARM_TIME = "first_alarm_time";
 
     //-----------------------------------------------------------
     // Option columns
@@ -231,18 +232,8 @@ public class MyDatabase {
 
             //--------------------------------------------------------------------------------------
             // Alarm
-            // table_name varchar
-            // slot_id    integer  -- Used to keep track of which rows to stuff data in
-            // 1 - low
-            // 2 - high
-            // 3 - sustained high
-            // 4 - Receiver Failure
-            // 5 - Hard Low   - set alarm_count to 1 when active, 0 when cleared
             //--------------------------------------------------------------------------------------
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + DATABASE_TABLE_ALARM +
-                    " (alarm_id integer not null, " +
-                    " alarm_count integer not null, " +
-                    " last_update integer not null);");
+            buildTableALarm(db);
 
             //--------------------------------------------------------------------------------------
             // Options
@@ -307,6 +298,8 @@ public class MyDatabase {
                     " values (2, 'Web Handler', 0, 0, 1412713000);");
             db.execSQL("insert into " + DATABASE_TABLE_SERVICES + " (service_id, service_name, status, last_run_time, created_date) " +
                     " values (3, 'Cloud Account', 0, 0, 1412713000);");
+            db.execSQL("insert into " + DATABASE_TABLE_SERVICES + " (service_id, service_name, status, last_run_time, created_date) " +
+                    " values (4, 'Internet Connection', 0, 0, 1412713000);");
 
             //-----------------------------
             // Seed data for logs
@@ -337,28 +330,6 @@ public class MyDatabase {
                     " (table_name, slot_id, seq_id, created_date) values ('dexBg'  ,1, 1, 0)");
 
             //--------------------------------------
-            // alarming codes
-            //
-            // 0 = All alarms
-            // 1 = critical low    2 = low          3 = high
-            // 4 = sustained       5 = data err     6 = high bg reset
-            // 7 = low bg reset    8 = down trend   9 = high trend
-            //
-            //--------------------------------------
-            db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update) values (0,0,0)");
-            db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update) values (1,0,0)");
-            db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update) values (2,0,0)");
-            db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update) values (3,0,0)");
-            db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update) values (4,0,0)");
-            db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update) values (5,0,0)");
-            db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update) values (6,0,0)");
-            db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update) values (7,0,0)");
-            db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update) values (8,0,0)");
-            db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update) values (9,0,0)");
-            db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update) values (10,0,0)");
-
-
-            //--------------------------------------
             // options
             //--------------------------------------
             db.execSQL("insert into " + DATABASE_TABLE_OPTIONS + " (option_id, option_name, status, last_update) values (1,'smart band',0,0)");
@@ -370,10 +341,21 @@ public class MyDatabase {
                            " values (1,'server',0, '-', 0)");
         }
 
+        //====================================================================================
+        // REMEMBER - Each version is an aggregation of all the previous versions
+        // so if in version A - you added column A
+        // and you plan to add a column in VERSION B, then VERSION B is version A + VERSION B
+        // it may be possible to do a fall through in the switch statement
+        // Also, remember to reflect all your changes in the initial database creation
+        //====================================================================================
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            // Log.d("DB-->", "New Version is" + newVersion);
+            Log.i("Database", "New Version is : " + newVersion);
             switch (newVersion) {
+                case 14:
+                case 13:
+                    buildTableALarm(db);
+
                 case 12:
                     db.execSQL("delete from " + DATABASE_TABLE_SERVICES);
                     db.execSQL("insert into " + DATABASE_TABLE_SERVICES + " (service_id, service_name, status, last_run_time, created_date) " +
@@ -386,15 +368,9 @@ public class MyDatabase {
                             " values (4, 'Internet Connection', 0, 0, 1412713000);");
                     break;
                 case 11:
-                    db.execSQL("delete from " + DATABASE_TABLE_SERVICES);
-                    db.execSQL("insert into " + DATABASE_TABLE_SERVICES + " (service_id, service_name, status, last_run_time, created_date) " +
-                            " values (1, 'Background Service', 0, 0, 1412713000);");
-                    db.execSQL("insert into " + DATABASE_TABLE_SERVICES + " (service_id, service_name, status, last_run_time, created_date) " +
-                            " values (2, 'Web Handler', 0, 0, 1412713000);");
-                    db.execSQL("insert into " + DATABASE_TABLE_SERVICES + " (service_id, service_name, status, last_run_time, created_date) " +
-                            " values (3, 'Cloud Account', 0, 0, 1412713000);");
                     break;
                 default:
+                    Log.i("Database", "Dropping existing tables");
                     db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_ACCOUNT_INFO);
                     db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_ALARM);
                     db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_SLOT);
@@ -410,6 +386,52 @@ public class MyDatabase {
             }
         }
     }
+
+
+
+    static public void buildTableALarm(SQLiteDatabase db) {
+
+        db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE_ALARM);
+        //--------------------------------------------------------------------------------------
+        // Alarm
+        // table_name varchar
+        // slot_id    integer  -- Used to keep track of which rows to stuff data in
+        // 1 - low
+        // 2 - high
+        // 3 - sustained high
+        // 4 - Receiver Failure
+        // 5 - Hard Low   - set alarm_count to 1 when active, 0 when cleared
+        //--------------------------------------------------------------------------------------
+        db.execSQL("CREATE TABLE IF NOT EXISTS "  + DATABASE_TABLE_ALARM +
+                " (alarm_id        integer not null, "   +
+                " alarm_count      integer not null, " +
+                " last_update      integer not null, " +
+                " first_alarm_time integer );");
+
+        //--------------------------------------
+        // alarming codes
+        //
+        // 0 = All alarms
+        // 1 = critical low    2 = low          3 = high
+        // 4 = sustained       5 = data err     6 = high bg reset
+        // 7 = low bg reset    8 = down trend   9 = high trend
+        //
+        //--------------------------------------
+
+        db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update, first_alarm_time) values (0,0,0,0)");
+        db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update, first_alarm_time) values (1,0,0,0)");
+        db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update, first_alarm_time) values (2,0,0,0)");
+        db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update, first_alarm_time) values (3,0,0,0)");
+        db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update, first_alarm_time) values (4,0,0,0)");
+        db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update, first_alarm_time) values (5,0,0,0)");
+        db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update, first_alarm_time) values (6,0,0,0)");
+        db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update, first_alarm_time) values (7,0,0,0)");
+        db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update, first_alarm_time) values (8,0,0,0)");
+        db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update, first_alarm_time) values (9,0,0,0)");
+        db.execSQL("insert into " + DATABASE_TABLE_ALARM + " (alarm_id, alarm_count, last_update, first_alarm_time) values (10,0,0,0)");
+
+    }
+
     //----------------------------------------------------------------------
     // Constructor for this class
     //----------------------------------------------------------------------
@@ -872,6 +894,9 @@ public class MyDatabase {
         ContentValues cv = new ContentValues();
         cv.put(COL_ALARM_TIME, (System.currentTimeMillis()/1000));
         cv.put(COL_ALARM_COUNT, argAlarmCount);
+        if(argAlarmCount == 1) {
+            cv.put(COL_FIRST_ALARM_TIME, (System.currentTimeMillis()/1000));
+        }
 
         String predicate = COL_ALARM_ID + "= " + argAlarmId + ";";
 
@@ -889,6 +914,8 @@ public class MyDatabase {
         ContentValues cv = new ContentValues();
         cv.put(COL_ALARM_COUNT, 0);
         cv.put(COL_ALARM_TIME, 0);
+        cv.put(COL_FIRST_ALARM_TIME, 0);
+
         String predicate = COL_ALARM_ID + "= " + argAlarmId + ";";
 
         ourDatabase.update(DATABASE_TABLE_ALARM, cv, predicate, null);
@@ -901,19 +928,22 @@ public class MyDatabase {
     //          we will pass the time as a string and let the calling function
     //          deal with changing it to a long (c, c++ so much better)
     //-------------------------------------------------------------------------
-    public void getAlarm(int argAlarmId, String[] outAlarmTime, Integer[] outAlarmCount ) {
+    public void getAlarm(int argAlarmId, String[] outAlarmTime, Integer[] outAlarmCount, String[] outAlarmFirstTime ) {
 
-        String[] columns = new String[]{COL_ALARM_COUNT, COL_ALARM_TIME};
+        String[] columns = new String[]{COL_ALARM_COUNT, COL_ALARM_TIME, COL_FIRST_ALARM_TIME};
         String predicate = COL_ALARM_ID + "= " + argAlarmId;
 
         Cursor c1 = ourDatabase.query(DATABASE_TABLE_ALARM, columns, predicate, null, null, null, null);
 
         int irow01  = c1.getColumnIndex(COL_ALARM_COUNT);
         int irow02  = c1.getColumnIndex(COL_ALARM_TIME);
+        int irow03  = c1.getColumnIndex(COL_FIRST_ALARM_TIME);
 
         for (c1.moveToFirst(); !c1.isAfterLast(); c1.moveToNext()) {
             outAlarmCount[0] = c1.getInt(irow01);
             outAlarmTime[0] = c1.getString(irow02);
+            outAlarmFirstTime[0] = c1.getString(irow03);
+
         }
         c1.close();
     }
