@@ -27,7 +27,8 @@ public class MyScatterGraph {
     public GraphicalView getView(Context context, int inRecordCount, int inHoursBack, long[] argX, int[] argY, int[] averageY, int argWarnHigh,  int argWarnLow,
                                  boolean argSmartFlag,
                                  boolean argAverageFlag,
-                                 int argSmartHigh) {
+                                 int     argSmartHigh,
+                                 String  bgColor) {
 
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
 
@@ -173,8 +174,14 @@ public class MyScatterGraph {
             mRenderer.setChartTitleTextSize(20);
 
             mRenderer.setApplyBackgroundColor(true);
-            mRenderer.setBackgroundColor(Color.BLACK);                                        // Was TRANSPARENT / "CLEAR"
-            mRenderer.setMarginsColor(Color.BLACK);                                                 // Was TRANSPARENT
+            if(bgColor.equals("0")) {
+                mRenderer.setBackgroundColor(Color.TRANSPARENT);                                              // Was TRANSPARENT / "CLEAR"
+                mRenderer.setMarginsColor(Color.TRANSPARENT);                                                 // Was TRANSPARENT
+            }
+            else {
+                mRenderer.setBackgroundColor(Color.parseColor(bgColor));                                              // Was TRANSPARENT / "CLEAR"
+                mRenderer.setMarginsColor(Color.parseColor(bgColor));                                                 // Was TRANSPARENT
+            }
             mRenderer.setMarginsColor(Color.argb(0x00, 0x01, 0x01, 0x01));
             mRenderer.setYTitle("Bg", 0);
             mRenderer.setZoomButtonsVisible(false);

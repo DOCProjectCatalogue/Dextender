@@ -271,7 +271,7 @@ public class MyTools {
     // Method: ProjectedBgValue
     //
     //==============================================================================================
-    public static void projectedBgValue( int inBgValue[], int inElementCount, int outProjectedValues[]) {
+    public  void projectedBgValue( int inBgValue[], int inElementCount, int outProjectedValues[]) {
         short trend=0;
         int[] tmpArray = new int[6];               // used to analyze bg array coming in. if all the same trend, then we end up with 6
         short tmpELements=0;                       // number of elements in the tmpArray

@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,19 +80,19 @@ public class fragment_4 extends Fragment implements View.OnClickListener {
                     rowStruct[i] = new MyRowStructure();
                     switch (Integer.parseInt(rec[0])) {
                         case 1:
-                            rowStruct[i].thisRow(R.mipmap.red_button, rec[1], rec[2]);
+                            rowStruct[i].thisRow(R.mipmap.ierr, rec[1], rec[2]);
                             break;
                         case 2:
-                            rowStruct[i].thisRow(R.mipmap.down, rec[1], rec[2]);
+                            rowStruct[i].thisRow(R.mipmap.idown, rec[1], rec[2]);
                             break;
                         case 3:
-                            rowStruct[i].thisRow(R.mipmap.up, rec[1], rec[2]);
+                            rowStruct[i].thisRow(R.mipmap.iup, rec[1], rec[2]);
                             break;
                         case 4:
-                            rowStruct[i].thisRow(R.mipmap.green_button, rec[1], rec[2]);
+                            rowStruct[i].thisRow(R.mipmap.iok, rec[1], rec[2]);
                             break;
                         case 5:
-                            rowStruct[i].thisRow(R.mipmap.yellow_button, rec[1], rec[2]);
+                            rowStruct[i].thisRow(R.mipmap.iwarn, rec[1], rec[2]);
                             break;
                         case 6:
                             rowStruct[i].thisRow(R.mipmap.nilow, rec[1], rec[2]);

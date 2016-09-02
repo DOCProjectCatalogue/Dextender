@@ -190,24 +190,24 @@ public class fragment_3 extends Fragment implements View.OnClickListener {
         //------------------------------------------------------------
         // Current low and high settings
         //------------------------------------------------------------
-        if (Integer.parseInt(prefs.getString("listLow", "70")) == -1) lowSetting.setText(R.string.off);
+        if (Integer.parseInt(prefs.getString("listLow", "70")) == -1) lowSetting.setText(R.string.Off);
         else                                                          lowSetting.setText(prefs.getString("listLow", "70"));
 
-        if (Integer.parseInt(prefs.getString("listHigh", "180")) == 1000) highSetting.setText(R.string.off);
+        if (Integer.parseInt(prefs.getString("listHigh", "180")) == 1000) highSetting.setText(R.string.Off);
         else                                                              highSetting.setText(prefs.getString("listHigh", "180"));
 
         if (prefs.getBoolean("pref_startTrailingHigh",false)) {
             targetHigh.setText(prefs.getString("followListHigh", "180"));
         }
         else {
-            targetHigh.setText(R.string.off);
+            targetHigh.setText(R.string.Off);
         }
 
         if (prefs.getBoolean("pref_startTrailingLow",false)) {
             targetLow.setText(prefs.getString("followListLow", "70"));
         }
         else {
-            targetLow.setText(R.string.off);
+            targetLow.setText(R.string.Off);
         }
         //------------------------------------------------------------
         // need the database for the following

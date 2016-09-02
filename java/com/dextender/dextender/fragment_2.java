@@ -143,7 +143,9 @@ public class fragment_2 extends Fragment implements View.OnClickListener {
                 warnLow,
                 prefs.getBoolean("pref_smartLimit", true),
                 prefs.getBoolean("pref_averageGraph", false),
-                smartHigh);
+                smartHigh,
+                prefs.getString("pref_chartBackground", "0")
+        );
 
         //----------------------------------------------------------------
         View v = inflater.inflate(R.layout.fragment_2, container, false);                           // Inflate this fragment
@@ -236,7 +238,8 @@ public class fragment_2 extends Fragment implements View.OnClickListener {
                     if (dbRecords == pref_predictSampleCount) {
                         myTools.projectedBgValue(bgArray, pref_predictSampleCount, projectedValues);                         // calculate the predicted BG value
                         if (projectedValues[0] != -1) {
-                            predictVal.setText("Predict: " + String.valueOf(projectedValues[0]));
+                            String tmpString="Forecast: " + String.valueOf(projectedValues[0]);
+                            predictVal.setText(tmpString);
                         } else {
                             predictVal.setText("");
                         }

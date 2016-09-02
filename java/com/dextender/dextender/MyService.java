@@ -424,7 +424,7 @@ public class MyService extends IntentService {
                     //--------------------------------------------------------------
 
                     int lastDexTime = (int) (((System.currentTimeMillis() / 1000) - myDb.getLastDexBgTime() ) / 60); // epoc now - epoc then (convert to minutes)
-                    Log.d("SERVICE", "Difference between dextime and current epoc - " + ((System.currentTimeMillis() / 1000) - myDb.getLastDexBgTime() ));
+                    //Log.d("SERVICE", "Difference between dextime and current epoc - " + ((System.currentTimeMillis() / 1000) - myDb.getLastDexBgTime() ));
 
                     String bgMinutes;                                                               // Minutes back we need to look for bg values
                     lastDexTime = tools.roundUp(lastDexTime, 5) -5;
@@ -477,13 +477,13 @@ public class MyService extends IntentService {
                                             "&minutes="        + bgMinutes      +
                                             "&maxCount="       + String.valueOf(MAX_BG_RECORDS)
                                     );
-                                    Log.d("MyService", "URL-->" + webUrl_4bg);
+                                    //Log.d("MyService", "URL-->" + webUrl_4bg);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
 
                                 webResponse = http.webGetBg(webUrl_4bg, message).split("\\|");
-                                Log.d("MyService", "Response -->" + webResponse[1]);
+                                //Log.d("MyService", "Response -->" + webResponse[1]);
                                 //------------------------------------------
                                 // Remember, it will be one giant string
                                 //------------------------------------------
@@ -958,15 +958,15 @@ public class MyService extends IntentService {
                         case DATA_ERROR_ALARM2:
                         case DATA_ERROR_ALARM: // data error
 
-                            Log.d("SERVICE", "in data alarm switch section - setting alarm for 2.0 minutes");
-                            setAlarm(2, myDb.getLastDexBgTime());                                 // Refresh in 2.5 minutes on data issues
+                            //Log.d("SERVICE", "in data alarm switch section - setting alarm for 2.0 minutes");
+                            setAlarm(2.5, myDb.getLastDexBgTime());                                 // Refresh in 2.5 minutes on data issues
 
                             //-------------------------------------------------------------------------
                             // we don't alarm on the first data error. But we do set the alarm count
                             //-------------------------------------------------------------------------
                             if (lastDataErrAlarmTime == 0) {
                                 myDb.updateAlarm(DATA_ERROR_ALARM, 1);
-                                Log.d("SERVICE", "This was our first data error");
+                                //Log.d("SERVICE", "This was our first data error");
 
                             }
                             else {
@@ -978,7 +978,7 @@ public class MyService extends IntentService {
                                     dataErrAlarmCount++;
 
                                     myDb.updateAlarm(DATA_ERROR_ALARM, dataErrAlarmCount);
-                                    Log.d("SERVICE", "Data error count is (even count does nothing) -->" + dataErrAlarmCount);
+                                    //Log.d("SERVICE", "Data error count is (even count does nothing) -->" + dataErrAlarmCount);
 
                                     //--------------------------------------------------------------
                                     // some special logic for this guy
@@ -1660,10 +1660,10 @@ public class MyService extends IntentService {
         // on either side (a few seconds early or late)
         // Let's make it 10 (total overkill) just to be safe
         // - dexLagTime is the lag between what the receiver reads and
-        //   the timeit's avi
+        //   the time it's posted to the web site
         //---------------------------------------------------------------
         int fuzzyTime=10;
-        int dexLagTime=120;                                        // let's do a 2 minute lag time
+        int dexLagTime=60;                                        // let's do a 2 minute lag time
 
         // setup the alarm manager
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -1705,17 +1705,17 @@ public class MyService extends IntentService {
             // But what about no data during the interval. Well.. thats why we are going to do some
             // math for that..
 
-            Log.d("service", "Dextime is   : " + inEpochLastDexTime);
-            Log.d("service", "current time : " + System.currentTimeMillis()/1000);
-            Log.d("service", "difference   : " + ((System.currentTimeMillis()/1000) - inEpochLastDexTime));
-            Log.d("service", "inSeconds    : " + (inMinutes*60));
+            //Log.d("service", "Dextime is   : " + inEpochLastDexTime);
+            //Log.d("service", "current time : " + System.currentTimeMillis()/1000);
+            //Log.d("service", "difference   : " + ((System.currentTimeMillis()/1000) - inEpochLastDexTime));
+            //Log.d("service", "inSeconds    : " + (inMinutes*60));
 
             if (inEpochLastDexTime != 0) {                                                          // there is a value
 
                 if (((System.currentTimeMillis() / 1000) - inEpochLastDexTime) >= ((inMinutes * 60)+ fuzzyTime)) { // we are late to refresh
                     calcSeconds = inMinutes * 60;                                                   // ie . make it 5 minutes
                 } else {
-                    calcSeconds = (inMinutes - ((System.currentTimeMillis() / 1000) - inEpochLastDexTime));   //
+                    calcSeconds = ((inMinutes*60) - ((System.currentTimeMillis() / 1000) - inEpochLastDexTime));   //
                     calcSeconds += dexLagTime;
                 }
 

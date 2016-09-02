@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MyCircleActivity extends Activity {
 
@@ -93,7 +94,7 @@ public class MyCircleActivity extends Activity {
                     if(progress < 60) {
                         progress = 0;
                         seekCircle.setProgress(progress);
-                        textProgress.setText(R.string.off);
+                        textProgress.setText(R.string.Off);
                     }
                     else {
                         if (progress > 100) {
@@ -163,6 +164,9 @@ public class MyCircleActivity extends Activity {
                 editor1.apply();
                 break;
         }
+        Toast toast;
+        toast = Toast.makeText(this, "Value set to " + String.valueOf(seekCircle.getProgress()), Toast.LENGTH_SHORT);
+        toast.show();
 
         onDestroy();
 
