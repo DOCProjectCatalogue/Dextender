@@ -29,9 +29,10 @@
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:textStyle="bold"
-            android:textColor="#ffff00"
+            android:textColor="#ffffff"
             android:text=""
+            android:paddingStart="10dp"
+            android:paddingEnd="0dp"
             android:gravity="top"
         />
 
@@ -234,32 +235,42 @@
                 android:layout_width="100dp"
                 android:textColor="@color/white"
             />
+
+
         </LinearLayout>
         <!-- ======================================================================= -->
 
 
-        <!-- bottom padding -->
         <TextView
-            android:layout_gravity="start"
-            android:layout_height="20dp"
-            android:layout_width="match_parent"
-            android:gravity="bottom" />
+            android:layout_weight="1"
+        android:id="@+id/frag1BottomMessage"
+        android:layout_gravity="bottom"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        />
+
 
 
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="bottom|end"
-        android:paddingRight="15dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="15dp"
         android:paddingBottom="15dp"
+        android:orientation="horizontal"
         >
         <ImageButton style="?android:borderlessButtonStyle"
+            android:contentDescription="@string/refreshButton"
             android:id="@+id/frag1_refreshButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/refresh"
+            android:background="@mipmap/srefresh"
             android:clickable="true"
             android:gravity="center"
             android:minHeight="65dp"

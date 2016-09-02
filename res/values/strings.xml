@@ -4,11 +4,10 @@
     <string name="Off">Off</string>
     <string name="On">On</string>
     <string name="low">Low</string>
-    <string name="default_progress">0%</string>
-
-
+    <string name="default_progress">70</string>
     <string name="dash">-</string>
     <string name="dbError">[DB Error]</string>
+
     <!-- Activity names in the manifest -->
     <string name="label_alarm">MyAlarm</string>
     <string name="label_speaker">MySpeaker</string>
@@ -23,9 +22,6 @@
     <string name="title_section4">Logs</string>
     <string name="title_section5">Bluetooth</string>
 
-    <!-- generic -->
-    <string name="off">Off</string>
-    <string name="on">On</string>
 
     <!-- Fragment 1 -->
     <string name="frag1_default_bg">101</string>
@@ -35,12 +31,13 @@
     <string name="frag1_default_dextime">--:--:--</string>
     <string name="frag1_default_scantime">--:--:--</string>
     <string name="frag1_message3">Trend</string>
-    <string name="frag1_buttonInstructions">Press the arrow button to refresh</string>
+    <string name="frag1_serviceWarning">Your connection settings are turned off.</string>
+    <string name="frag1_serviceHint">\"Long press\" the button above\nto restart </string>
 
     <!-- Fragment 2 -->
     <string name="frag2_bgTitle">101</string>
     <string name="frag2_predictBgValue">--</string>
-    <string name="frag2_serviceWarning">Your connection settings are turned off.</string>
+
     <string name="frag2_novalueMsg">Not enough values</string>
     <string name="frag2Label3">Average</string>
     <string name="frag2defaultTime">--:--:-- AM</string>
@@ -68,6 +65,11 @@
     <string name="settings_section1">This is Settings</string>
     <string name="action_settings">Settings</string>
 
+    <!-- General items -->
+    <string name="checkButton">Apply</string>
+    <string name="refreshButton">Refresh</string>
+    <string name="okButton">ok</string>
+
     <!-- Preferences -->
     <string name="pref_uid">Retrieve your access code</string>
     <string name="pref_uid_sum">Your access code from the follow app</string>
@@ -92,6 +94,8 @@
     </string>
     <string name="pref_solidBackground">Background Image</string>
     <string name="pref_solidBackground_sum">Have an image instead of a solid black background</string>
+    <string name="pref_chartBackground">Chart Background</string>
+    <string name="pref_chartBackground_sum">How do you want the chart background to look</string>
 
 
     <string name="pref_razer">SmartWatch Notifications</string>

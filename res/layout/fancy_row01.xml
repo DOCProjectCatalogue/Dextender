@@ -12,6 +12,7 @@
         android:layout_width="50sp"
         android:layout_height="50sp">
         <ImageView android:id="@+id/fancyRowImg"
+            android:contentDescription="@string/okButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:gravity="center_vertical"

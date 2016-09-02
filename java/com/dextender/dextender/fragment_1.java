@@ -40,7 +40,8 @@ public class fragment_1 extends Fragment implements View.OnClickListener {
         // Get the respective ID's from the XML screens
         //--------------------------------------------------------
         TextView filler1            = (TextView)    view.findViewById(R.id.frag1Filler1);
-        TextView message            = (TextView)    view.findViewById(R.id.frag1Message);
+        TextView messageTop         = (TextView)    view.findViewById(R.id.frag1Message);
+        TextView messageBottom      = (TextView)    view.findViewById(R.id.frag1BottomMessage);
         TextView bgVal              = (TextView)    view.findViewById(R.id.bgVal);
         TextView lastServiceRunTime = (TextView)    view.findViewById(R.id.frag1_serviceRunTime);
         TextView serviceTimeAgo     = (TextView)    view.findViewById(R.id.frag1_runTimeAgo);
@@ -88,9 +89,10 @@ public class fragment_1 extends Fragment implements View.OnClickListener {
         // See if preferences are set to prohibit us from accessing the network
         //---------------------------------------------------------------------------------
         if ( (!serviceStatus) || (!cloudStatus) ) {
-            message.setBackgroundColor(getResources().getColor(R.color.red));
+            messageTop.setBackgroundColor(getResources().getColor(R.color.red));
             filler1.setBackgroundColor(getResources().getColor(R.color.red));
-            message.setText(getString(R.string.frag2_serviceWarning));
+            messageTop.setText(getString(R.string.frag1_serviceWarning));
+            messageBottom.setText(getString(R.string.frag1_serviceHint));
         }
 
 

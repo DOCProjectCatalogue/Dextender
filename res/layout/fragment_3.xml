@@ -475,7 +475,7 @@
             android:id="@+id/frag3_refreshButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/refresh"
+            android:background="@mipmap/srefresh"
             android:clickable="true"
             android:gravity="center"
             android:minHeight="65dp"

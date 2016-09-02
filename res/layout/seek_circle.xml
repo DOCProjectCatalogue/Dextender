@@ -10,7 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/white"
-        android:text="---"
+        android:text="@string/dash"
+        android:textSize="28sp"
+        android:textStyle="bold"
         android:id="@+id/circleTitle"/>
 
 
@@ -45,30 +47,17 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textColor="@color/white"
+            android:textSize="48sp"
+            android:textStyle="bold"
             android:text="@string/default_progress"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom|end"
-        android:paddingEnd="10dp"
-        android:paddingBottom="10dp"
-        >
-
-        <ImageButton style="?android:borderlessButtonStyle"
-            android:id="@+id/seekButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/check"
+            android:gravity="center_vertical|center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:clickable="true"
             android:onClick="submitIt"
-            android:gravity="center"
-            android:minHeight="65dp"
-            android:minWidth="65dp"
-            android:layout_gravity="bottom|end"
+            android:background="@mipmap/button_submit"
+            android:typeface="monospace"
+            android:singleLine="true" />
 
-            />
-    </LinearLayout>
+    </RelativeLayout>
+
 </FrameLayout>
