@@ -5,8 +5,7 @@
      Original Author: http://www.vogella.com/tutorials/AndroidWidgets/article.html
      widget layout
      This one is interesting in that it uses a background that's in
-     the mipmap directory. That directory had to be created and isn't a default dir.
-     Then I created this file.
+     the drawable directory.
   ================================================================================ -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,8 +13,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="@color/deep_purple"
     >
     <!--android:background="@color/black" -->
 
@@ -24,23 +21,22 @@
         android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="top|center_vertical"
+        android:layout_gravity="top|center"
         android:layout_margin="2dip"
         android:textSize="14sp"
-        android:text="--:--:--"
+        android:text="@string/frag1_default_dextime"
         />
-
 
     <TextView
         android:id="@+id/widget_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:layout_gravity="center"
         android:textSize="36sp"
         android:textStyle="bold"
-        android:gravity="center_horizontal|center_vertical"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal|center_vertical"
         android:layout_margin="1dip"
         android:text="125"
          />
@@ -49,10 +45,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/s0"
-        android:contentDescription="bg trend"
+        android:contentDescription="@string/dash"
         android:id="@+id/widget_trend"
-        android:gravity="center"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
     />
 
     <TextView

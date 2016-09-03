@@ -238,5 +238,24 @@
         <item>#660099</item>
     </string-array>
 
+    <string-array name="widgetBackground">
+        <item>Clear (no color)</item>
+        <item>Gray</item>
+        <item>Blue</item>
+        <item>Purple</item>
+        <item>Red</item>
+        <item>Blue-->Black</item>
+        <item>Blue-->Red</item>
+    </string-array>
+    <string-array name="widgetBackgroundValues">
+        <item>clear_widget</item>
+        <item>gray_widget</item>
+        <item>blue_widget</item>
+        <item>purple_widget</item>
+        <item>red_widget</item>
+        <item>blue_black_widget</item>
+        <item>blue_red_widget</item>
+    </string-array>
+
 
 </resources>

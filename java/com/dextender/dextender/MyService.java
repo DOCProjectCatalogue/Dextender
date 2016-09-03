@@ -1138,6 +1138,10 @@ public class MyService extends IntentService {
             for (int widgetId : allWidgetIds) {
                 RemoteViews remoteViews = new RemoteViews(getApplicationContext().getPackageName(), R.layout.widget);
 
+                String tempString=prefs.getString("pref_widgetBackground", "clear_widget");
+                int id = getResources().getIdentifier(tempString, "drawable", getPackageName());
+                remoteViews.setInt(R.id.layout, "setBackgroundResource", id);
+
                 if (rec != null) {
                     remoteViews.setTextViewText(R.id.widget_usbTime, stringDate);
                     remoteViews.setTextColor(R.id.widget_bg, Color.parseColor(tools.bgToColor(dbBgNumValue, pref_warnLow, pref_warnHigh)));
@@ -1653,7 +1657,7 @@ public class MyService extends IntentService {
         //===============================================================
         // Clear the alarm just in case we get hosed up
         //===============================================================
-        Log.d("SERVICE", "set alarm called with inminutes=" + inMinutes);
+        //Log.d("SERVICE", "set alarm called with inminutes=" + inMinutes);
 
         //---------------------------------------------------------------
         // Since the alarm is inexact, we can be off by a few seconds
@@ -1728,8 +1732,8 @@ public class MyService extends IntentService {
             long whenToFireAfterThat = (long) inMinutes * 60 * 1000;
 
 
-            Log.d("service", "Alarm will fire in  : " + calcSeconds + " seconds");
-            Log.d("service", "..and after that    : " + whenToFireAfterThat/1000);
+            //Log.d("service", "Alarm will fire in  : " + calcSeconds + " seconds");
+            //Log.d("service", "..and after that    : " + whenToFireAfterThat/1000);
 
             alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,                      // wakeup and fire
                     whenToFire,   // when (in milliseconds)

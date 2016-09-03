@@ -179,6 +179,7 @@ public class MyScatterGraph {
                 mRenderer.setMarginsColor(Color.TRANSPARENT);                                                 // Was TRANSPARENT
             }
             else {
+                //mRenderer.setBackgroundColor(R.drawable.blue_red_widget);                                              // Was TRANSPARENT / "CLEAR"
                 mRenderer.setBackgroundColor(Color.parseColor(bgColor));                                              // Was TRANSPARENT / "CLEAR"
                 mRenderer.setMarginsColor(Color.parseColor(bgColor));                                                 // Was TRANSPARENT
             }

@@ -96,6 +96,8 @@
     <string name="pref_solidBackground_sum">Have an image instead of a solid black background</string>
     <string name="pref_chartBackground">Chart Background</string>
     <string name="pref_chartBackground_sum">How do you want the chart background to look</string>
+    <string name="pref_widgetBackground">Widget Background</string>
+    <string name="pref_widgetBackground_sum">How do you want the widget background to look</string>
 
 
     <string name="pref_razer">SmartWatch Notifications</string>

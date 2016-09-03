@@ -68,6 +68,8 @@ public class MyWidget extends AppWidgetProvider {
                 dbBgTrend = Integer.parseInt(recordPiece[2]);
             }
 
+
+
             //-----------------------------------------------------------------------------------
             // This I'm not so sure fragment_about. We need to talk to ALL widgets that might be running
             // Get all ids
@@ -77,6 +79,10 @@ public class MyWidget extends AppWidgetProvider {
             for (int widgetId : allWidgetIds) {
 
                 RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+
+                String tempString=prefs.getString("pref_widgetBackground", "clear_widget");
+                int id = context.getResources().getIdentifier(tempString, "drawable", context.getPackageName());
+                remoteViews.setInt(R.id.layout, "setBackgroundResource", id);
 
                 // Set the text
 
@@ -130,23 +136,7 @@ public class MyWidget extends AppWidgetProvider {
                     remoteViews.setTextViewText(R.id.widget_bg, "");
                     remoteViews.setImageViewResource(R.id.widget_trend, R.mipmap.s0);
                 }
-                //--------------------------------------------------------------
-                // Original Intent code
-                //--------------------------------------------------------------
-                //Intent intent = new Intent(context, MyWidget.class);
 
-                //intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                //intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-
-                //PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                //remoteViews.setOnClickPendingIntent(R.id.widget_bg, pendingIntent);
-                //appWidgetManager.updateAppWidget(widgetId, remoteViews);
-                //--------------------------------------------------------------
-                // End Original Intent Code
-                //--------------------------------------------------------------
-
-                // Set the pending intent
 
                 Intent intent = new Intent(context, MyActivity.class);
 
@@ -154,8 +144,6 @@ public class MyWidget extends AppWidgetProvider {
 
 /* leave*/      remoteViews.setOnClickPendingIntent(R.id.layout, pendingIntent);
 /* leave*/      appWidgetManager.updateAppWidget(widgetId, remoteViews);
-
-
 
             }
             myDb.close();

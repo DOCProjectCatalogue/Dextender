@@ -470,6 +470,13 @@
                 android:summary="@string/pref_chartBackground_sum"
                 android:entries="@array/chartBackground"
                 android:entryValues="@array/chartBackgroundValues" />
+            <ListPreference
+                android:id="@+id/pref_widgetBackground"
+                android:key="pref_widgetBackground"
+                android:title="@string/pref_widgetBackground"
+                android:summary="@string/pref_widgetBackground_sum"
+                android:entries="@array/widgetBackground"
+                android:entryValues="@array/widgetBackgroundValues" />
 
 
 
