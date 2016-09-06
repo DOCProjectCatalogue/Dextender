@@ -25,9 +25,9 @@
 
     <!-- Fragment 1 -->
     <string name="frag1_default_bg">101</string>
-    <string name="frag1_serviceRunTime_title">Last time we ran :</string>
-    <string name="frag1_scantime_title">Last time we got data :</string>
-    <string name="frag1_dextime_title">Last receiver time :</string>
+    <string name="frag1_serviceRunTime_title">Last time we ran</string>
+    <string name="frag1_scantime_title">Last time we got data</string>
+    <string name="frag1_dextime_title">Last receiver time</string>
     <string name="frag1_default_dextime">--:--:--</string>
     <string name="frag1_default_scantime">--:--:--</string>
     <string name="frag1_message3">Trend</string>
@@ -81,6 +81,8 @@
     <string name="pref_tts_polite_sum">Prefix your speech with:\n\"The blood glucose level is\".\nThis is useful
         when using BlueTooth speakers and the beginning part of the speech gets cut off and you miss the actual BG value
     </string>
+    <string name="pref_tts_list">Greeting Type</string>
+    <string name="pref_tts_list_sum">The type of greeting you want to start off with</string>
 
     <string name="pref_a1c">Display A1C on chart</string>
     <string name="pref_a1c_sum">This is not a final A1C value, but a calculated\n
@@ -200,6 +202,9 @@
 
     <!-- Splash -->
     <string name="splash_banner">dExtender</string>
+
+    <!-- Circe Instructions -->
+    <string name="circleHint">Press the center button to apply your changes</string>
 
     <!-- Alarm -->
     <string name="slider">Slide to unlock</string>

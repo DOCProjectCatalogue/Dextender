@@ -424,6 +424,15 @@
                 android:defaultValue="false"
                 android:dependency="pref_tts"
                 android:summary="@string/pref_tts_polite_sum"/>
+            <ListPreference
+                android:id="@+id/pref_tts_list"
+                android:key="pref_tts_list"
+                android:defaultValue="1"
+                android:dependency="pref_tts"
+                android:title="@string/pref_tts_list"
+                android:summary="@string/pref_tts_list_sum"
+                android:entries="@array/ttsList"
+                android:entryValues="@array/ttsListValues" />
         </PreferenceScreen>
 
 

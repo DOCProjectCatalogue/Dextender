@@ -27,28 +27,35 @@
         android:text="@string/frag1_default_dextime"
         />
 
-    <TextView
-        android:id="@+id/widget_bg"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:layout_margin="1dip"
-        android:text="125"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal|center_vertical">
+        <TextView
+            android:id="@+id/widget_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:layout_weight=".5"
+            android:layout_margin="1dip"
+            android:text="125"
+            android:gravity="right"
          />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/s0"
-        android:contentDescription="@string/dash"
-        android:id="@+id/widget_trend"
-        android:layout_gravity="center_horizontal"
-    />
+        <ImageView
+            android:id="@+id/widget_trend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/s0"
+            android:contentDescription="@string/dash"
+            android:layout_weight=".5"
+            android:layout_gravity="left|center_vertical"
+
+            />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/widget_filler"

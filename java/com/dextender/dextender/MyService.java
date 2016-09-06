@@ -23,7 +23,6 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import org.json.JSONArray;
@@ -137,7 +136,7 @@ public class MyService extends IntentService {
                     myDb.open();
                     myDb.logIt(LOG_LEVEL_WARNING, logMsg);
                     if (!prefs.getBoolean("pref_netIgnore", true)) {
-                        soundAlarm(prefs.getString("networkErrorAlarmTone", null), false, false, Integer.parseInt(prefs.getString("pref_maxPlayTime", "5")), false, false, null, null, false, null);
+                        soundAlarm(prefs.getString("networkErrorAlarmTone", null), false, false, Integer.parseInt(prefs.getString("pref_maxPlayTime", "5")), false, false, null, null, null, false, null);
                     }
                     if (connectFlag == 0) {
                         myDb.updateServiceStatus("Internet Connection", SERVICE_ERROR);
@@ -306,6 +305,7 @@ public class MyService extends IntentService {
             boolean pref_tts                = prefs.getBoolean("pref_tts", false);
             boolean pref_tts_muzzle         = prefs.getBoolean("pref_tts_muzzle", false);
             boolean pref_ttsPolite          = prefs.getBoolean("pref_tts_polite", false);
+            String  pref_ttsGreeting        = prefs.getString("pref_tts_list", "0");
 
             //==========================
             // Razer Pref
@@ -749,7 +749,7 @@ public class MyService extends IntentService {
                                                 lowWarning = true;
                                             }
 
-                                            sayIt(Integer.parseInt(bgArrayStr[i]), Integer.parseInt(trendArrayStr[i]), lowWarning, pref_ttsPolite, null);
+                                            sayIt(Integer.parseInt(bgArrayStr[i]), Integer.parseInt(trendArrayStr[i]), lowWarning, pref_ttsPolite, pref_ttsGreeting, null);
 
                                         }
                                     }
@@ -873,10 +873,10 @@ public class MyService extends IntentService {
                                     myDb.logIt(LOG_LEVEL_CRITICAL_LOW, "Critical hard low alarm set - value: " + lastBgValue);
 
                                     if(pref_tts)
-                                        soundAlarm(hardLowSoundFile, vibrate, override, maxPlayTime, true, pref_ttsPolite,
+                                        soundAlarm(hardLowSoundFile, vibrate, override, maxPlayTime, true, pref_ttsPolite, pref_ttsGreeting,
                                                    lastBgValue, lastTrendValue, true, null);
                                     else
-                                        soundAlarm(hardLowSoundFile, vibrate, override, maxPlayTime, false, false,
+                                        soundAlarm(hardLowSoundFile, vibrate, override, maxPlayTime, false, false, null,
                                                    null, null, true, null);
                                 }
                             }
@@ -897,10 +897,10 @@ public class MyService extends IntentService {
                                     }
 
                                     if(pref_tts)
-                                        soundAlarm(lowSoundFile, vibrate, override, maxPlayTime, true, pref_ttsPolite,
+                                        soundAlarm(lowSoundFile, vibrate, override, maxPlayTime, true, pref_ttsPolite, pref_ttsGreeting,
                                                     lastBgValue, lastTrendValue, lowWarning, null);
                                     else
-                                        soundAlarm(lowSoundFile, vibrate, override, maxPlayTime, false, false,
+                                        soundAlarm(lowSoundFile, vibrate, override, maxPlayTime, false, false, null,
                                                 null, null, lowWarning, null);
 
 
@@ -923,10 +923,10 @@ public class MyService extends IntentService {
                                     }
                                     else {
                                         if (pref_tts)
-                                            soundAlarm(highSoundFile, vibrate, override, maxPlayTime, true, pref_ttsPolite,
+                                            soundAlarm(highSoundFile, vibrate, override, maxPlayTime, true, pref_ttsPolite, pref_ttsGreeting,
                                                     lastBgValue, lastTrendValue, false, null);
                                         else
-                                            soundAlarm(highSoundFile, vibrate, override, maxPlayTime, false, false,
+                                            soundAlarm(highSoundFile, vibrate, override, maxPlayTime, false, false, null,
                                                     null, null, false, null);
                                     }
 
@@ -943,10 +943,10 @@ public class MyService extends IntentService {
                             if (shighSoundFile != null) {       // we are running high
                                 myDb.logIt(LOG_LEVEL_HIGH, "Sustained high alarm set");
                                 if(pref_tts)
-                                    soundAlarm(shighSoundFile, vibrate, override, maxPlayTime, true, pref_ttsPolite,
+                                    soundAlarm(shighSoundFile, vibrate, override, maxPlayTime, true, pref_ttsPolite, pref_ttsGreeting,
                                             lastBgValue, lastTrendValue, false, null);
                                 else
-                                    soundAlarm(shighSoundFile, vibrate, override, maxPlayTime, false, false,
+                                    soundAlarm(shighSoundFile, vibrate, override, maxPlayTime, false, false, null,
                                             null, null, false, null);
 
                                 //myDb.updateAlarm(SUSTAINED_ALARM, 1);
@@ -994,7 +994,7 @@ public class MyService extends IntentService {
                                                 turnOffServices(getApplicationContext());
                                                 if (autoOffSoundFile != null) {
 
-                                                    soundAlarm(autoOffSoundFile, vibrate, override, maxPlayTime, false, false, null, null, false, null);
+                                                    soundAlarm(autoOffSoundFile, vibrate, override, maxPlayTime, false, false, null, null, null, false, null);
                                                     soundAlarmFlag = true;
                                                 }
                                                 myDb.logIt(LOG_LEVEL_WARNING, "Services have been turned off, please see settings");
@@ -1005,7 +1005,7 @@ public class MyService extends IntentService {
                                         //Log.d("MyService", "Soundfile" + dataErrSoundFile + " alarmFlag" + soundAlarmFlag);
 
                                         if (dataErrSoundFile != null && !soundAlarmFlag) {              // we didn't play the "I'm turning off services notification sound
-                                            soundAlarm(dataErrSoundFile, vibrate, override, maxPlayTime, false, false, null, null, false, null);
+                                            soundAlarm(dataErrSoundFile, vibrate, override, maxPlayTime, false, false, null, null, null, false, null);
                                         }
                                     }
                                 }
@@ -1019,7 +1019,7 @@ public class MyService extends IntentService {
                                     myDb.logIt(LOG_LEVEL_INFO, "High warning limit has reached it's target of " + pref_highTarget);
                                 }
                                 else {
-                                    soundAlarm(trailingHighAlarmTone, false, false, maxPlayTime, false, false,
+                                    soundAlarm(trailingHighAlarmTone, false, false, maxPlayTime, false, false, null,
                                             null, null, false, null);
                                     myDb.logIt(LOG_LEVEL_INFO, "The high warning limit has been reset to " + String.valueOf(newHighLimit));
                                 }
@@ -1034,7 +1034,7 @@ public class MyService extends IntentService {
                                     myDb.logIt(LOG_LEVEL_INFO, "Low warning limit has reached it's target of " + pref_lowTarget);
                                 }
                                 else {
-                                    soundAlarm(trailingLowAlarmTone, false, false, maxPlayTime, false, false,
+                                    soundAlarm(trailingLowAlarmTone, false, false, maxPlayTime, false, false, null,
                                             null, null, false, null);
                                     myDb.logIt(LOG_LEVEL_INFO, "The low warning limit has been reset to " + String.valueOf(newLowLimit));
                                 }
@@ -1047,7 +1047,7 @@ public class MyService extends IntentService {
                                 //Log.d("MyService ", "system current time"  + System.currentTimeMillis()/1000);
 
                                 if ((trendSnoozeTime + lastLowTrendAlarmTime + fuzzySeconds) <= (System.currentTimeMillis() / 1000)) {
-                                    soundAlarm(lowTrendAlarmTone, false, false, maxPlayTime, false, false,
+                                    soundAlarm(lowTrendAlarmTone, false, false, maxPlayTime, false, false, null,
                                             null, null, false, null);
                                     myDb.logIt(LOG_LEVEL_WARNING, "Low trend alarm set");
                                     myDb.updateAlarm(TREND_LOW_ALARM, 1);
@@ -1058,7 +1058,7 @@ public class MyService extends IntentService {
                         case TREND_HIGH_ALARM:
                             if(highTrendAlarmTone != null) {
                                 if ((trendSnoozeTime + lastHighTrendAlarmTime + fuzzySeconds) <= (System.currentTimeMillis() / 1000)) {
-                                    soundAlarm(highTrendAlarmTone, false, false, maxPlayTime, false, false,
+                                    soundAlarm(highTrendAlarmTone, false, false, maxPlayTime, false, false, null,
                                             null, null, false, null);
                                     myDb.logIt(LOG_LEVEL_WARNING, "High trend alarm set");
                                     myDb.updateAlarm(TREND_HIGH_ALARM, 1);
@@ -1235,7 +1235,7 @@ public class MyService extends IntentService {
 
 
     public void soundAlarm(String soundFile, boolean vibrateFlag, final boolean override, final int maxPlayTime,
-                           final boolean playTTS, final boolean ttsPolite, final Integer lastBgValue, final Integer lastTrendValue,
+                           final boolean playTTS, final boolean ttsPolite, final String ttsGreeting, final Integer lastBgValue, final Integer lastTrendValue,
                            final boolean lowWarning, final String otherStuff) {
 
         Uri myUri1 = Uri.parse(soundFile);
@@ -1285,7 +1285,7 @@ public class MyService extends IntentService {
                             mp1.stop();
                             mp1.release();
                             mp1.reset();
-                            sayIt(lastBgValue, lastTrendValue, lowWarning, ttsPolite, otherStuff);
+                            sayIt(lastBgValue, lastTrendValue, lowWarning, ttsPolite, ttsGreeting, otherStuff);
                         }
                     }
                 });
@@ -1312,7 +1312,7 @@ public class MyService extends IntentService {
                         mp1.stop();
                         //Log.d("MyService", "Ended up killing it");
                         if(playTTS) {
-                            sayIt(lastBgValue, lastTrendValue, lowWarning, ttsPolite, otherStuff);
+                            sayIt(lastBgValue, lastTrendValue, lowWarning, ttsPolite, ttsGreeting, otherStuff);
                         }
                     }
                 }
@@ -1372,20 +1372,26 @@ public class MyService extends IntentService {
 
         int notificationID=2112;
 
-        String tmpBgString;
+        String tmpNotificationStr1;
+        String tmpNotificationStr2;
         String notificationTitle;
         String notificationText;
-        int bgIcon;
+        int notificationIcon;
+        int trayIcon;
 
         if(bgNotificationFlag) {
 
-            if (inValue < 40)
-                tmpBgString = "nilow";                                                                // What value to display way up top
+            if (inValue < 40) {
+                tmpNotificationStr1 = "nilow";                                                                // What value to display way up top
+                tmpNotificationStr2 = "tlow";
+            }
             else {
                 if (inValue > 400) {
-                    tmpBgString = "nihigh";
+                    tmpNotificationStr1 = "nihigh";
+                    tmpNotificationStr2 = "thigh";
                 } else {
-                    tmpBgString = "ni" + Integer.toString(inValue);                                     // ie: ni120.png (see mipmaps)
+                    tmpNotificationStr1 = "ni" + Integer.toString(inValue);                                     // ie: ni120.png (see mipmaps)
+                    tmpNotificationStr2 = "t" + Integer.toString(inValue);
                 }
             }
 
@@ -1418,11 +1424,14 @@ public class MyService extends IntentService {
                 default:  notificationText=Integer.toString(inValue) + " \u219b";
                     break;
             }
-                bgIcon = this.getResources().getIdentifier(tmpBgString, "mipmap", this.getPackageName());      // instead of R.mipmap.s<whatever>
+            notificationIcon = this.getResources().getIdentifier(tmpNotificationStr1, "mipmap", this.getPackageName());      // instead of R.mipmap.s<whatever>
+            trayIcon         = this.getResources().getIdentifier(tmpNotificationStr2, "mipmap", this.getPackageName());
         }
         else {
-                tmpBgString="tapir3";
-                bgIcon = this.getResources().getIdentifier(tmpBgString, "mipmap", this.getPackageName());      // instead of R.mipmap.s<whatever>
+                tmpNotificationStr1="tapir2";
+                tmpNotificationStr2="tapiricon"; // <-- This needs to be worked on - should be alpha channel
+                notificationIcon = this.getResources().getIdentifier(tmpNotificationStr1, "mipmap", this.getPackageName());      // instead of R.mipmap.s<whatever>
+                trayIcon         = this.getResources().getIdentifier(tmpNotificationStr2, "mipmap", this.getPackageName());      // instead of R.mipmap.s<whatever>
                 notificationTitle="dExtender";
                 notificationText=miscNotificationString;
         }
@@ -1437,7 +1446,7 @@ public class MyService extends IntentService {
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), (int) System.currentTimeMillis(), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Bitmap bm = BitmapFactory.decodeResource(getResources(), bgIcon);                           // the large icon needs to be converted into a bitmap (weird)
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), notificationIcon);                           // the large icon needs to be converted into a bitmap (weird)
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(MyActivity.class);
@@ -1445,7 +1454,7 @@ public class MyService extends IntentService {
 
 
         NotificationCompat.Builder mbuilder = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(bgIcon)                                                               // smallIcon - what shows up in the tippy top
+                .setSmallIcon(trayIcon)                                                               // smallIcon - what shows up in the tippy top
                 .setContentTitle(notificationTitle)                                                 // The larger text
                 .setContentText(notificationText)                                                   // the smaller text under the title
                 .setLargeIcon(bm)
@@ -1571,7 +1580,7 @@ public class MyService extends IntentService {
     // Note   : we are going to format the values so they 'sound' right
     //          when read.
     //------------------------------------------------------------------
-    private boolean sayIt(int inBg, int inTrend, boolean inLowWarning, boolean inTtsPolite, String inOtherStuff) {
+    private boolean sayIt(int inBg, int inTrend, boolean inLowWarning, boolean inTtsPolite, String ttsGreeting, String inOtherStuff) {
 
         //-----------------------------------------
         // Convert to strings and verbal output
@@ -1610,8 +1619,8 @@ public class MyService extends IntentService {
         //----------------------------------------------------------------
         Intent openSpeakerActivity = new Intent(getApplicationContext(), MySpeakerActivity.class);
         openSpeakerActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if(inTtsPolite)  openSpeakerActivity.putExtra("polite", "yes");                             // fancy schmancy
-        else             openSpeakerActivity.putExtra("polite", "no");
+        if(inTtsPolite)  openSpeakerActivity.putExtra("polite", ttsGreeting);                       // fancy schmancy
+        else             openSpeakerActivity.putExtra("polite", "0");
         openSpeakerActivity.putExtra("bgValue", strBg);
         openSpeakerActivity.putExtra("trendValue", strTrend);
 

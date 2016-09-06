@@ -223,7 +223,7 @@
 
     <string-array name="chartBackground">
         <item>Clear (no color)</item>
-        <item>black</item>
+        <item>Black</item>
         <item>Dark blue</item>
         <item>Dark green</item>
         <item>Dark gray</item>
@@ -232,10 +232,10 @@
     <string-array name="chartBackgroundValues">
         <item>0</item>
         <item>#000000</item>
-        <item>#000040</item>
-        <item>#004000</item>
-        <item>#404040</item>
-        <item>#660099</item>
+        <item>#000020</item>
+        <item>#002000</item>
+        <item>#202020</item>
+        <item>#330066</item>
     </string-array>
 
     <string-array name="widgetBackground">
@@ -246,6 +246,8 @@
         <item>Red</item>
         <item>Blue-->Black</item>
         <item>Blue-->Red</item>
+        <item>Blue-->Transparent</item>
+        <item>Black-->Transparent</item>
     </string-array>
     <string-array name="widgetBackgroundValues">
         <item>clear_widget</item>
@@ -255,7 +257,34 @@
         <item>red_widget</item>
         <item>blue_black_widget</item>
         <item>blue_red_widget</item>
+        <item>blue_transparent_widget</item>
+        <item>black_transparent_widget</item>
     </string-array>
+
+    <string-array name="ttsList">
+        <item>None</item>
+        <item>Polite</item>
+        <item>Hip Hop</item>
+        <item>Pirate</item>
+        <item>Overly Polite</item>
+        <item>New York</item>
+        <item>Surfer</item>
+        <item>Robot</item>
+        <item>Random</item>
+    </string-array>
+    <string-array name="ttsListValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>99</item>
+    </string-array>
+
+
 
 
 </resources>

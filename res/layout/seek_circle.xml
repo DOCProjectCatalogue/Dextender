@@ -47,17 +47,27 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textColor="@color/white"
-            android:textSize="48sp"
+            android:textSize="64sp"
             android:textStyle="bold"
             android:text="@string/default_progress"
             android:gravity="center_vertical|center_horizontal"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:clickable="true"
             android:onClick="submitIt"
-            android:background="@mipmap/button_submit"
+            android:background="@mipmap/submit"
             android:typeface="monospace"
             android:singleLine="true" />
 
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:textColor="@color/white"
+        android:text="@string/circleHint"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:id="@+id/circleHint"/>
 
 </FrameLayout>

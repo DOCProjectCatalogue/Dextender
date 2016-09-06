@@ -12,7 +12,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -219,6 +218,9 @@ public class fragment_1 extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        //final Random rand = new Random();
+        //int tmpInt = rand.nextInt(3) + 1;
+        //Log.d("FRAG1", "Rand =" + tmpInt);
         refresh();
     }
 

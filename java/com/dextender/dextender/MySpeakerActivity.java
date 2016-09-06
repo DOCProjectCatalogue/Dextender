@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
-import android.util.Log;
-
-
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Random;
 
 //===============================================================
 // Fired up by the service - This needs to be an activity
@@ -40,7 +38,7 @@ public class MySpeakerActivity extends Activity {
             freeform    = extras.getString("freeform");
         }
 
-        tts = new TextToSpeech(getBaseContext(), new TextToSpeech.OnInitListener() {
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
 
             HashMap<String, String> map = new HashMap<String, String>();
             int timesSpoken=0;
@@ -52,7 +50,7 @@ public class MySpeakerActivity extends Activity {
 
                 if (status == TextToSpeech.SUCCESS) {
 
-                    // Log.d("Speaker", "Status == SUCCESS");
+                    //Log.d("Speaker", "Status == SUCCESS");
                     tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
 
 
@@ -72,14 +70,14 @@ public class MySpeakerActivity extends Activity {
                             if (utteranceId.equals("utteranceId")) {
 
                                 timesSpoken++;
-                                //Log.d("Say", "We said something number" + timesSpoken);
+                                 //Log.d("Say", "We said something number" + timesSpoken + " of " + maxSpeakingFrags);
 
                                 if (timesSpoken == maxSpeakingFrags) {
                                     //if (tts != null) {
                                        tts.stop();
                                        tts.shutdown();
                                     //}
-                                    onDestroy();
+                                    //onDestroy();
                                 }
                             }
                         }
@@ -99,10 +97,10 @@ public class MySpeakerActivity extends Activity {
                     tts.setLanguage(Locale.US);
                     map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "utteranceId");
 
-                    if(freeform != null) {
+                    if(freeform != null) {                                 // You want to free form say something
                         maxSpeakingFrags = 2;
                         tts.playSilence(1000, TextToSpeech.QUEUE_FLUSH, map);
-                        tts.speak(freeform, TextToSpeech.QUEUE_ADD, null); // Nothing to say
+                        tts.speak(freeform, TextToSpeech.QUEUE_ADD, null); // pregnant pause
                         tts.playSilence(500, TextToSpeech.QUEUE_ADD, map);
                     }
                     else {
@@ -113,13 +111,44 @@ public class MySpeakerActivity extends Activity {
                             tts.speak("there is no current blood glucose reading", TextToSpeech.QUEUE_ADD, null); // Nothing to say
                             tts.playSilence(500, TextToSpeech.QUEUE_ADD, map);
                         } else {
-                            maxSpeakingFrags = 5;
 
                             tts.playSilence(1000, TextToSpeech.QUEUE_FLUSH, map);
                             //tts.playSilentUtterance(1000,TextToSpeech.QUEUE_FLUSH,"");            // API 21
-                            if (politeValue.equals("yes")) {
-                                tts.speak("the blood glucose level is", TextToSpeech.QUEUE_ADD, null); // oooh.. fancy talk
-                                maxSpeakingFrags = 6;
+
+                            Integer tmpInt = Integer.parseInt(politeValue);
+                            if(tmpInt != 0) {
+                                if (tmpInt == 99) {
+                                    final Random rand = new Random();
+                                    tmpInt = rand.nextInt(7) + 1;
+                                }
+                                maxSpeakingFrags=6;
+                            }
+                            else {
+                                maxSpeakingFrags = 5;
+                            }
+                            switch(tmpInt){
+                                case 1:
+                                    tts.speak("the blood glucose level is", TextToSpeech.QUEUE_ADD, null); // oooh.. fancy talk
+                                    break;
+                                case 2:
+                                    tts.speak("Yo ! What's up ? The bee gee bee ", TextToSpeech.QUEUE_ADD, null); // oooh.. fancy talk
+                                    break;
+                                case 3:
+                                    tts.speak("Arghh. The blood glucose for the scurvey one is  ", TextToSpeech.QUEUE_ADD, null); // oooh.. fancy talk
+                                    break;
+                                case 4:
+                                    tts.speak("Greetings. Thy blood glucose is ", TextToSpeech.QUEUE_ADD, null); // oooh.. fancy talk
+                                    break;
+                                case 5:
+                                    tts.speak("What are you looking at ? Take it from me, your blood glucose is ", TextToSpeech.QUEUE_ADD, null); // oooh.. fancy talk
+                                    break;
+                                case 6:
+                                    tts.speak("Dude. Whoah. Your most awesome glucose is ", TextToSpeech.QUEUE_ADD, null); // oooh.. fancy talk
+                                    break;
+                                case 7:
+                                    tts.speak("Greetings Human, your blood glucose is ", TextToSpeech.QUEUE_ADD, null); // oooh.. fancy talk
+                                    break;
+
                             }
                             // Log.d("SPEAKER", "ABOUT TO SPEAK");
                             tts.speak(bgValue, TextToSpeech.QUEUE_ADD, map);
@@ -127,15 +156,14 @@ public class MySpeakerActivity extends Activity {
                             tts.speak(trendValue, TextToSpeech.QUEUE_ADD, map);
                             tts.playSilence(500, TextToSpeech.QUEUE_ADD, map);
                             if (!otherStuff.equals("--")) {
-                                maxSpeakingFrags = 7;
+                                maxSpeakingFrags++;
                                 tts.speak("at " + otherStuff, TextToSpeech.QUEUE_ADD, map);
                             }
                         }
                     }
                 }
             }
-    });
-
+        });
 
     }
 
@@ -156,6 +184,7 @@ public class MySpeakerActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        //Log.d("say", "here on resume");
         finish();               // NEW FOR API 23
     }
 
@@ -163,7 +192,10 @@ public class MySpeakerActivity extends Activity {
     @Override
     protected void onDestroy() {
         //Log.d("SPEAKER", "ON DESTROYER");
-
+        //if(tts != null){
+        //    tts.stop();
+        //    tts.shutdown();
+        //}
         super.onDestroy();
         finish();
     }
